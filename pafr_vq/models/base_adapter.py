@@ -72,7 +72,7 @@ class VQGANAdapter(BaseTokenizerAdapter):
         return cls(model.to(device))
     def encode(self, images: Tensor) -> dict[str, Tensor]:
         encoder_features = self.vqgan.quant_conv(self.vqgan.encoder(images))
-        quantized, _, info = self.vqgan.quantize(encoder_features); ids = info[2]
+        quantized, _, info = self.vqgan.quantize(encoder_features.float()); ids = info[2]
         if ids.ndim == 1: ids = ids.view(images.shape[0], *quantized.shape[-2:])
         return {"token_ids": ids.long(), "quantized_features": quantized, "encoder_features": encoder_features}
     def decode(self, token_ids: Tensor | None = None, quantized_features: Tensor | None = None) -> Tensor:

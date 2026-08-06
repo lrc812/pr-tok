@@ -1,0 +1,95 @@
+# Operating system and editor state
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python caches, environments, and local configuration
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+ENV/
+.env
+.env.*
+!.env.example
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Training logs and experiment artifacts
+**/logs/
+**/lightning_logs/
+**/tensorboard/
+**/wandb/
+**/checkpoints/
+**/results/
+**/results_*/
+**/samples/
+**/images/
+**/fid_results/
+**/codebook_usage*/
+**/codebook_analysis/
+**/codebook_ngrams/
+**/codebook_entropy/
+*.log
+*.tfevents.*
+
+# Model weights and other large machine-learning artifacts
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+*.onnx
+*.bin
+*.tfrecord
+*.npy
+*.npz
+*.h5
+*.hdf5
+
+# Downloaded datasets (keep manifests and small split files where useful)
+/datasets/
+/data/
+taming-transformers/data/imagenet/*
+!taming-transformers/data/imagenet/*.json
+!taming-transformers/data/imagenet/*.txt
+!taming-transformers/data/imagenet/*.csv
+taming-transformers/data/roco/*
+!taming-transformers/data/roco/download.py
+taming-transformers/data/rexgradient_160k/*
+!taming-transformers/data/rexgradient_160k/raw/README.md
+taming-transformers/data/sflckr_images/
+taming-transformers/data/sflckr_segmentations/
+**/data/raw/
+**/data/processed/
+
+# Evaluation caches and generated visualizations
+**/evaluation/**/images_*/
+**/evaluation/**/cache/
+
+# Temporary files and crash dumps
+.tmp/
+tmp/
+*.tmp
+*.bak
+*.orig
+*.pid
+*.core
+core

@@ -219,15 +219,22 @@ class VectorQuantizer2(nn.Module):
     # backwards compatibility we use the buggy version by default, but you can
     # specify legacy=False to fix it.
     def __init__(self, n_e, e_dim, beta, remap=None, unknown_index="random",
-                 sane_index_shape=False, legacy=True):
+                 sane_index_shape=False, legacy=True, l2_normalized=False,
+                 l2_normalize_eps=1e-6):
         super().__init__()
         self.n_e = n_e
         self.e_dim = e_dim
         self.beta = beta
         self.legacy = legacy
+        self.l2_normalized = l2_normalized
+        self.l2_normalize_eps = float(l2_normalize_eps)
+        if self.l2_normalize_eps <= 0:
+            raise ValueError("l2_normalize_eps must be positive")
 
         self.embedding = nn.Embedding(self.n_e, self.e_dim)
         self.embedding.weight.data.uniform_(-1.0 / self.n_e, 1.0 / self.n_e)
+        if self.l2_normalized:
+            nn.init.normal_(self.embedding.weight, std=self.e_dim ** -0.5)
 
         self.remap = remap
         if self.remap is not None:
@@ -243,6 +250,28 @@ class VectorQuantizer2(nn.Module):
             self.re_embed = n_e
 
         self.sane_index_shape = sane_index_shape
+
+    @torch.autocast(device_type="cuda", enabled=False)
+    def get_codebook_embeddings(self):
+        """Return the effective codebook used by quantization.
+
+        Normalization is functional: gradients flow back to the unconstrained raw
+        embedding parameters, but optimizer steps never project those parameters
+        onto the unit sphere.
+        """
+        if self.l2_normalized:
+            return F.normalize(
+                self.embedding.weight.float(), p=2, dim=-1,
+                eps=self.l2_normalize_eps,
+            )
+        return self.embedding.weight
+
+    def _get_effective_latents(self, z):
+        if self.l2_normalized:
+            return F.normalize(
+                z.float(), p=2, dim=-1, eps=self.l2_normalize_eps,
+            )
+        return z
 
     def remap_to_used(self, inds):
         ishape = inds.shape
@@ -268,21 +297,25 @@ class VectorQuantizer2(nn.Module):
         back=torch.gather(used[None,:][inds.shape[0]*[0],:], 1, inds)
         return back.reshape(ishape)
 
+    @torch.autocast(device_type="cuda", enabled=False)
     def forward(self, z, temp=None, rescale_logits=False, return_logits=False):
         assert temp is None or temp==1.0, "Only for interface compatible with Gumbel"
         assert rescale_logits==False, "Only for interface compatible with Gumbel"
         assert return_logits==False, "Only for interface compatible with Gumbel"
         # reshape z -> (batch, height, width, channel) and flatten
-        z = rearrange(z, 'b c h w -> b h w c').contiguous()
+        # L2 normalization must run in FP32: FP16 rounds the default eps=1e-12
+        # to zero, so a zero/underflowed latent would compute 0/0 and become NaN.
+        z = self._get_effective_latents(rearrange(z, 'b c h w -> b h w c').contiguous())
         z_flattened = z.view(-1, self.e_dim)
+        embeddings = self.get_codebook_embeddings()
         # distances from z to embeddings e_j (z - e)^2 = z^2 + e^2 - 2 e * z
 
         d = torch.sum(z_flattened ** 2, dim=1, keepdim=True) + \
-            torch.sum(self.embedding.weight**2, dim=1) - 2 * \
-            torch.einsum('bd,dn->bn', z_flattened, rearrange(self.embedding.weight, 'n d -> d n'))
+            torch.sum(embeddings**2, dim=1) - 2 * \
+            torch.einsum('bd,dn->bn', z_flattened, rearrange(embeddings, 'n d -> d n'))
 
         min_encoding_indices = torch.argmin(d, dim=1)
-        z_q = self.embedding(min_encoding_indices).view(z.shape)
+        z_q = F.embedding(min_encoding_indices, embeddings).view(z.shape)
         perplexity = None
         min_encodings = None
 
@@ -319,7 +352,7 @@ class VectorQuantizer2(nn.Module):
             indices = indices.reshape(-1) # flatten again
 
         # get quantized latent vectors
-        z_q = self.embedding(indices)
+        z_q = F.embedding(indices, self.get_codebook_embeddings())
 
         if shape is not None:
             z_q = z_q.view(shape)
@@ -327,6 +360,47 @@ class VectorQuantizer2(nn.Module):
             z_q = z_q.permute(0, 3, 1, 2).contiguous()
 
         return z_q
+
+    def embed_code(self, indices):
+        """Embed code indices using the effective (optionally normalized) codes."""
+        indices = indices.long()
+        z_q = F.embedding(indices, self.get_codebook_embeddings())
+        if len(z_q.shape) == 3:
+            z_q = z_q.unsqueeze(0)
+        z_q = z_q.permute(0, 3, 1, 2).contiguous()
+        return z_q
+
+    @torch.autocast(device_type="cuda", enabled=False)
+    def gumbel_softmax(self, z):
+        z = rearrange(z, 'b c h w -> b h w c').contiguous()
+        z = self._get_effective_latents(z)
+        # 展平: (B*H*W, C)
+        z_flattened = z.view(-1, self.e_dim)
+        embeddings = self.get_codebook_embeddings()
+        # 2. 计算距离：直接复制 VectorQuantizer2.forward 中的逻辑
+        # d = ||z||^2 + ||e||^2 - 2*z*e
+        # d shape: (B*H*W, n_e)
+        # 注意：这里使用了 einsum 进行矩阵乘法，与原代码完全一致
+        d = torch.sum(z_flattened ** 2, dim=1, keepdim=True) + \
+            torch.sum(embeddings**2, dim=1) - 2 * \
+            torch.einsum('bd,dn->bn', z_flattened, rearrange(embeddings, 'n d -> d n'))
+
+        # 3. 将距离转换为 Logits
+        # 距离越小，概率越大。公式: P = exp(-distance / temperature)
+        # 所以 logits = -distance / temperature
+        logits = -d # / temperature  # temperature 默认为 1.0
+        # 4. 恢复 Batch 维度
+        # 当前 shape: (Batch * Height * Width, n_e)
+        # 目标 shape: (Batch, Height * Width, n_e)
+        b = z.shape[0]
+        logits = logits.view(b, -1, self.n_e)
+        # 5. 计算 Softmax 得到概率矩阵
+        probs = F.softmax(logits, dim=-1)
+        return probs
+
+    def gumble_softmax(self, z):
+        """Backward-compatible alias for the historical misspelling."""
+        return self.gumbel_softmax(z)
 
 class EmbeddingEMA(nn.Module):
     def __init__(self, num_tokens, codebook_dim, decay=0.99, eps=1e-5):
@@ -362,8 +436,8 @@ class EMAVectorQuantizer(nn.Module):
     def __init__(self, n_embed, embedding_dim, beta, decay=0.99, eps=1e-5,
                 remap=None, unknown_index="random"):
         super().__init__()
-        self.codebook_dim = codebook_dim
-        self.num_tokens = num_tokens
+        self.codebook_dim = embedding_dim
+        self.num_tokens = n_embed
         self.beta = beta
         self.embedding = EmbeddingEMA(self.num_tokens, self.codebook_dim, decay, eps)
 

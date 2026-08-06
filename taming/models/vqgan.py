@@ -104,19 +104,25 @@ class VQModel(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         x = self.get_input(batch, self.image_key)
         xrec, qloss = self(x)
-        aeloss, log_dict_ae = self.loss(qloss, x, xrec, 0, self.global_step,
-                                            last_layer=self.get_last_layer(), split="val")
 
+        # 计算 autoencoder loss 和 discriminator loss
+        aeloss, log_dict_ae = self.loss(qloss, x, xrec, 0, self.global_step,
+                                        last_layer=self.get_last_layer(), split="val")
         discloss, log_dict_disc = self.loss(qloss, x, xrec, 1, self.global_step,
                                             last_layer=self.get_last_layer(), split="val")
-        rec_loss = log_dict_ae["val/rec_loss"]
-        self.log("val/rec_loss", rec_loss,
-                   prog_bar=True, logger=True, on_step=True, on_epoch=True, sync_dist=True)
-        self.log("val/aeloss", aeloss,
-                   prog_bar=True, logger=True, on_step=True, on_epoch=True, sync_dist=True)
-        self.log_dict(log_dict_ae)
-        self.log_dict(log_dict_disc)
-        return self.log_dict
+
+        # 合并日志记录，避免重复 key
+        log_dict = {
+            "val/rec_loss": log_dict_ae.pop("val/rec_loss"),
+            "val/aeloss": aeloss,
+            "val/discloss": discloss,
+        }
+        log_dict.update(log_dict_ae)
+        log_dict.update(log_dict_disc)
+
+        # 确保每个 key 只被记录一次
+        self.log_dict(log_dict, prog_bar=True, logger=True, on_step=False, on_epoch=True, sync_dist=True)
+        return log_dict
 
     def configure_optimizers(self):
         lr = self.learning_rate
@@ -340,6 +346,7 @@ class GumbelVQ(VQModel):
         discloss, log_dict_disc = self.loss(qloss, x, xrec, 1, self.global_step,
                                             last_layer=self.get_last_layer(), split="val")
         rec_loss = log_dict_ae["val/rec_loss"]
+        log_dict_ae["val/discloss"] = discloss
         self.log("val/rec_loss", rec_loss,
                  prog_bar=True, logger=True, on_step=False, on_epoch=True, sync_dist=True)
         self.log("val/aeloss", aeloss,
@@ -401,4 +408,4 @@ class EMAVQ(VQModel):
                                   lr=lr, betas=(0.5, 0.9))
         opt_disc = torch.optim.Adam(self.loss.discriminator.parameters(),
                                     lr=lr, betas=(0.5, 0.9))
-        return [opt_ae, opt_disc], []                                           
+        return [opt_ae, opt_disc], []

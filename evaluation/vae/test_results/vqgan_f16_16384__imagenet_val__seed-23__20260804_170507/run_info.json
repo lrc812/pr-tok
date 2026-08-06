@@ -1,0 +1,603 @@
+{
+  "created_at": "2026-08-04T17:05:13.061767+08:00",
+  "model": {
+    "config": "/data1/lhran/proj/vq-gan/taming-transformers/pretrained_models/vqgan_f16_16384/config.yaml",
+    "checkpoint": "/data1/lhran/proj/vq-gan/taming-transformers/pretrained_models/vqgan_f16_16384/model.ckpt",
+    "target": "taming.models.vqgan.VQModel",
+    "n_embed": 16384,
+    "embed_dim": 256,
+    "epoch": 1,
+    "global_step": 41272,
+    "missing_keys": [],
+    "unexpected_training_loss_keys": [
+      "loss.perceptual_loss.scaling_layer.shift",
+      "loss.perceptual_loss.scaling_layer.scale",
+      "loss.perceptual_loss.net.slice1.0.weight",
+      "loss.perceptual_loss.net.slice1.0.bias",
+      "loss.perceptual_loss.net.slice1.2.weight",
+      "loss.perceptual_loss.net.slice1.2.bias",
+      "loss.perceptual_loss.net.slice2.5.weight",
+      "loss.perceptual_loss.net.slice2.5.bias",
+      "loss.perceptual_loss.net.slice2.7.weight",
+      "loss.perceptual_loss.net.slice2.7.bias",
+      "loss.perceptual_loss.net.slice3.10.weight",
+      "loss.perceptual_loss.net.slice3.10.bias",
+      "loss.perceptual_loss.net.slice3.12.weight",
+      "loss.perceptual_loss.net.slice3.12.bias",
+      "loss.perceptual_loss.net.slice3.14.weight",
+      "loss.perceptual_loss.net.slice3.14.bias",
+      "loss.perceptual_loss.net.slice4.17.weight",
+      "loss.perceptual_loss.net.slice4.17.bias",
+      "loss.perceptual_loss.net.slice4.19.weight",
+      "loss.perceptual_loss.net.slice4.19.bias",
+      "loss.perceptual_loss.net.slice4.21.weight",
+      "loss.perceptual_loss.net.slice4.21.bias",
+      "loss.perceptual_loss.net.slice5.24.weight",
+      "loss.perceptual_loss.net.slice5.24.bias",
+      "loss.perceptual_loss.net.slice5.26.weight",
+      "loss.perceptual_loss.net.slice5.26.bias",
+      "loss.perceptual_loss.net.slice5.28.weight",
+      "loss.perceptual_loss.net.slice5.28.bias",
+      "loss.perceptual_loss.lin0.model.1.weight",
+      "loss.perceptual_loss.lin1.model.1.weight",
+      "loss.perceptual_loss.lin2.model.1.weight",
+      "loss.perceptual_loss.lin3.model.1.weight",
+      "loss.perceptual_loss.lin4.model.1.weight",
+      "loss.discriminator.main.0.weight",
+      "loss.discriminator.main.0.bias",
+      "loss.discriminator.main.2.weight",
+      "loss.discriminator.main.3.weight",
+      "loss.discriminator.main.3.bias",
+      "loss.discriminator.main.3.running_mean",
+      "loss.discriminator.main.3.running_var",
+      "loss.discriminator.main.3.num_batches_tracked",
+      "loss.discriminator.main.5.weight",
+      "loss.discriminator.main.6.weight",
+      "loss.discriminator.main.6.bias",
+      "loss.discriminator.main.6.running_mean",
+      "loss.discriminator.main.6.running_var",
+      "loss.discriminator.main.6.num_batches_tracked",
+      "loss.discriminator.main.8.weight",
+      "loss.discriminator.main.8.bias"
+    ]
+  },
+  "dataset": {
+    "image_dir": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val",
+    "discovered_image_count": 50000,
+    "sample_count": 100,
+    "seed": 23,
+    "image_size": 256,
+    "preprocessing": "SmallestMaxSize + CenterCrop (albumentations)",
+    "selected_samples": [
+      {
+        "row": 0,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01582220/ILSVRC2012_val_00024044_n01582220.JPEG",
+        "relative_path": "n01582220/ILSVRC2012_val_00024044_n01582220.JPEG"
+      },
+      {
+        "row": 1,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01614925/ILSVRC2012_val_00022597_n01614925.JPEG",
+        "relative_path": "n01614925/ILSVRC2012_val_00022597_n01614925.JPEG"
+      },
+      {
+        "row": 2,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01629819/ILSVRC2012_val_00033575_n01629819.JPEG",
+        "relative_path": "n01629819/ILSVRC2012_val_00033575_n01629819.JPEG"
+      },
+      {
+        "row": 3,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01644900/ILSVRC2012_val_00023758_n01644900.JPEG",
+        "relative_path": "n01644900/ILSVRC2012_val_00023758_n01644900.JPEG"
+      },
+      {
+        "row": 4,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01693334/ILSVRC2012_val_00018857_n01693334.JPEG",
+        "relative_path": "n01693334/ILSVRC2012_val_00018857_n01693334.JPEG"
+      },
+      {
+        "row": 5,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01704323/ILSVRC2012_val_00002939_n01704323.JPEG",
+        "relative_path": "n01704323/ILSVRC2012_val_00002939_n01704323.JPEG"
+      },
+      {
+        "row": 6,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01774384/ILSVRC2012_val_00024956_n01774384.JPEG",
+        "relative_path": "n01774384/ILSVRC2012_val_00024956_n01774384.JPEG"
+      },
+      {
+        "row": 7,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01910747/ILSVRC2012_val_00046918_n01910747.JPEG",
+        "relative_path": "n01910747/ILSVRC2012_val_00046918_n01910747.JPEG"
+      },
+      {
+        "row": 8,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01917289/ILSVRC2012_val_00026983_n01917289.JPEG",
+        "relative_path": "n01917289/ILSVRC2012_val_00026983_n01917289.JPEG"
+      },
+      {
+        "row": 9,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01943899/ILSVRC2012_val_00018485_n01943899.JPEG",
+        "relative_path": "n01943899/ILSVRC2012_val_00018485_n01943899.JPEG"
+      },
+      {
+        "row": 10,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n01943899/ILSVRC2012_val_00019373_n01943899.JPEG",
+        "relative_path": "n01943899/ILSVRC2012_val_00019373_n01943899.JPEG"
+      },
+      {
+        "row": 11,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02006656/ILSVRC2012_val_00008555_n02006656.JPEG",
+        "relative_path": "n02006656/ILSVRC2012_val_00008555_n02006656.JPEG"
+      },
+      {
+        "row": 12,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02009229/ILSVRC2012_val_00030940_n02009229.JPEG",
+        "relative_path": "n02009229/ILSVRC2012_val_00030940_n02009229.JPEG"
+      },
+      {
+        "row": 13,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02018795/ILSVRC2012_val_00041359_n02018795.JPEG",
+        "relative_path": "n02018795/ILSVRC2012_val_00041359_n02018795.JPEG"
+      },
+      {
+        "row": 14,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02027492/ILSVRC2012_val_00015908_n02027492.JPEG",
+        "relative_path": "n02027492/ILSVRC2012_val_00015908_n02027492.JPEG"
+      },
+      {
+        "row": 15,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02033041/ILSVRC2012_val_00046892_n02033041.JPEG",
+        "relative_path": "n02033041/ILSVRC2012_val_00046892_n02033041.JPEG"
+      },
+      {
+        "row": 16,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02074367/ILSVRC2012_val_00038110_n02074367.JPEG",
+        "relative_path": "n02074367/ILSVRC2012_val_00038110_n02074367.JPEG"
+      },
+      {
+        "row": 17,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02086646/ILSVRC2012_val_00022521_n02086646.JPEG",
+        "relative_path": "n02086646/ILSVRC2012_val_00022521_n02086646.JPEG"
+      },
+      {
+        "row": 18,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02090721/ILSVRC2012_val_00040053_n02090721.JPEG",
+        "relative_path": "n02090721/ILSVRC2012_val_00040053_n02090721.JPEG"
+      },
+      {
+        "row": 19,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02094258/ILSVRC2012_val_00033194_n02094258.JPEG",
+        "relative_path": "n02094258/ILSVRC2012_val_00033194_n02094258.JPEG"
+      },
+      {
+        "row": 20,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02096585/ILSVRC2012_val_00048157_n02096585.JPEG",
+        "relative_path": "n02096585/ILSVRC2012_val_00048157_n02096585.JPEG"
+      },
+      {
+        "row": 21,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02101006/ILSVRC2012_val_00015552_n02101006.JPEG",
+        "relative_path": "n02101006/ILSVRC2012_val_00015552_n02101006.JPEG"
+      },
+      {
+        "row": 22,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02105162/ILSVRC2012_val_00019272_n02105162.JPEG",
+        "relative_path": "n02105162/ILSVRC2012_val_00019272_n02105162.JPEG"
+      },
+      {
+        "row": 23,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02106166/ILSVRC2012_val_00044548_n02106166.JPEG",
+        "relative_path": "n02106166/ILSVRC2012_val_00044548_n02106166.JPEG"
+      },
+      {
+        "row": 24,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02106550/ILSVRC2012_val_00003623_n02106550.JPEG",
+        "relative_path": "n02106550/ILSVRC2012_val_00003623_n02106550.JPEG"
+      },
+      {
+        "row": 25,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02107574/ILSVRC2012_val_00025684_n02107574.JPEG",
+        "relative_path": "n02107574/ILSVRC2012_val_00025684_n02107574.JPEG"
+      },
+      {
+        "row": 26,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02110341/ILSVRC2012_val_00030476_n02110341.JPEG",
+        "relative_path": "n02110341/ILSVRC2012_val_00030476_n02110341.JPEG"
+      },
+      {
+        "row": 27,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02111277/ILSVRC2012_val_00016890_n02111277.JPEG",
+        "relative_path": "n02111277/ILSVRC2012_val_00016890_n02111277.JPEG"
+      },
+      {
+        "row": 28,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02114367/ILSVRC2012_val_00027497_n02114367.JPEG",
+        "relative_path": "n02114367/ILSVRC2012_val_00027497_n02114367.JPEG"
+      },
+      {
+        "row": 29,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02123394/ILSVRC2012_val_00003382_n02123394.JPEG",
+        "relative_path": "n02123394/ILSVRC2012_val_00003382_n02123394.JPEG"
+      },
+      {
+        "row": 30,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02125311/ILSVRC2012_val_00005004_n02125311.JPEG",
+        "relative_path": "n02125311/ILSVRC2012_val_00005004_n02125311.JPEG"
+      },
+      {
+        "row": 31,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02128757/ILSVRC2012_val_00035868_n02128757.JPEG",
+        "relative_path": "n02128757/ILSVRC2012_val_00035868_n02128757.JPEG"
+      },
+      {
+        "row": 32,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02226429/ILSVRC2012_val_00047260_n02226429.JPEG",
+        "relative_path": "n02226429/ILSVRC2012_val_00047260_n02226429.JPEG"
+      },
+      {
+        "row": 33,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02364673/ILSVRC2012_val_00039733_n02364673.JPEG",
+        "relative_path": "n02364673/ILSVRC2012_val_00039733_n02364673.JPEG"
+      },
+      {
+        "row": 34,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02417914/ILSVRC2012_val_00025770_n02417914.JPEG",
+        "relative_path": "n02417914/ILSVRC2012_val_00025770_n02417914.JPEG"
+      },
+      {
+        "row": 35,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02445715/ILSVRC2012_val_00004808_n02445715.JPEG",
+        "relative_path": "n02445715/ILSVRC2012_val_00004808_n02445715.JPEG"
+      },
+      {
+        "row": 36,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02481823/ILSVRC2012_val_00038902_n02481823.JPEG",
+        "relative_path": "n02481823/ILSVRC2012_val_00038902_n02481823.JPEG"
+      },
+      {
+        "row": 37,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02483362/ILSVRC2012_val_00033513_n02483362.JPEG",
+        "relative_path": "n02483362/ILSVRC2012_val_00033513_n02483362.JPEG"
+      },
+      {
+        "row": 38,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02492035/ILSVRC2012_val_00005637_n02492035.JPEG",
+        "relative_path": "n02492035/ILSVRC2012_val_00005637_n02492035.JPEG"
+      },
+      {
+        "row": 39,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02492660/ILSVRC2012_val_00048932_n02492660.JPEG",
+        "relative_path": "n02492660/ILSVRC2012_val_00048932_n02492660.JPEG"
+      },
+      {
+        "row": 40,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02667093/ILSVRC2012_val_00026134_n02667093.JPEG",
+        "relative_path": "n02667093/ILSVRC2012_val_00026134_n02667093.JPEG"
+      },
+      {
+        "row": 41,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02676566/ILSVRC2012_val_00002837_n02676566.JPEG",
+        "relative_path": "n02676566/ILSVRC2012_val_00002837_n02676566.JPEG"
+      },
+      {
+        "row": 42,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02747177/ILSVRC2012_val_00004907_n02747177.JPEG",
+        "relative_path": "n02747177/ILSVRC2012_val_00004907_n02747177.JPEG"
+      },
+      {
+        "row": 43,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02791124/ILSVRC2012_val_00045348_n02791124.JPEG",
+        "relative_path": "n02791124/ILSVRC2012_val_00045348_n02791124.JPEG"
+      },
+      {
+        "row": 44,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02802426/ILSVRC2012_val_00010546_n02802426.JPEG",
+        "relative_path": "n02802426/ILSVRC2012_val_00010546_n02802426.JPEG"
+      },
+      {
+        "row": 45,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02807133/ILSVRC2012_val_00034039_n02807133.JPEG",
+        "relative_path": "n02807133/ILSVRC2012_val_00034039_n02807133.JPEG"
+      },
+      {
+        "row": 46,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02939185/ILSVRC2012_val_00014420_n02939185.JPEG",
+        "relative_path": "n02939185/ILSVRC2012_val_00014420_n02939185.JPEG"
+      },
+      {
+        "row": 47,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02948072/ILSVRC2012_val_00025186_n02948072.JPEG",
+        "relative_path": "n02948072/ILSVRC2012_val_00025186_n02948072.JPEG"
+      },
+      {
+        "row": 48,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02965783/ILSVRC2012_val_00021101_n02965783.JPEG",
+        "relative_path": "n02965783/ILSVRC2012_val_00021101_n02965783.JPEG"
+      },
+      {
+        "row": 49,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02980441/ILSVRC2012_val_00013726_n02980441.JPEG",
+        "relative_path": "n02980441/ILSVRC2012_val_00013726_n02980441.JPEG"
+      },
+      {
+        "row": 50,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02980441/ILSVRC2012_val_00034819_n02980441.JPEG",
+        "relative_path": "n02980441/ILSVRC2012_val_00034819_n02980441.JPEG"
+      },
+      {
+        "row": 51,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n02981792/ILSVRC2012_val_00021210_n02981792.JPEG",
+        "relative_path": "n02981792/ILSVRC2012_val_00021210_n02981792.JPEG"
+      },
+      {
+        "row": 52,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03028079/ILSVRC2012_val_00003351_n03028079.JPEG",
+        "relative_path": "n03028079/ILSVRC2012_val_00003351_n03028079.JPEG"
+      },
+      {
+        "row": 53,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03325584/ILSVRC2012_val_00007722_n03325584.JPEG",
+        "relative_path": "n03325584/ILSVRC2012_val_00007722_n03325584.JPEG"
+      },
+      {
+        "row": 54,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03345487/ILSVRC2012_val_00022602_n03345487.JPEG",
+        "relative_path": "n03345487/ILSVRC2012_val_00022602_n03345487.JPEG"
+      },
+      {
+        "row": 55,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03372029/ILSVRC2012_val_00023506_n03372029.JPEG",
+        "relative_path": "n03372029/ILSVRC2012_val_00023506_n03372029.JPEG"
+      },
+      {
+        "row": 56,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03393912/ILSVRC2012_val_00015947_n03393912.JPEG",
+        "relative_path": "n03393912/ILSVRC2012_val_00015947_n03393912.JPEG"
+      },
+      {
+        "row": 57,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03461385/ILSVRC2012_val_00035884_n03461385.JPEG",
+        "relative_path": "n03461385/ILSVRC2012_val_00035884_n03461385.JPEG"
+      },
+      {
+        "row": 58,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03478589/ILSVRC2012_val_00026532_n03478589.JPEG",
+        "relative_path": "n03478589/ILSVRC2012_val_00026532_n03478589.JPEG"
+      },
+      {
+        "row": 59,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03498962/ILSVRC2012_val_00002588_n03498962.JPEG",
+        "relative_path": "n03498962/ILSVRC2012_val_00002588_n03498962.JPEG"
+      },
+      {
+        "row": 60,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03498962/ILSVRC2012_val_00023035_n03498962.JPEG",
+        "relative_path": "n03498962/ILSVRC2012_val_00023035_n03498962.JPEG"
+      },
+      {
+        "row": 61,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03649909/ILSVRC2012_val_00020327_n03649909.JPEG",
+        "relative_path": "n03649909/ILSVRC2012_val_00020327_n03649909.JPEG"
+      },
+      {
+        "row": 62,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03692522/ILSVRC2012_val_00012843_n03692522.JPEG",
+        "relative_path": "n03692522/ILSVRC2012_val_00012843_n03692522.JPEG"
+      },
+      {
+        "row": 63,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03733281/ILSVRC2012_val_00010635_n03733281.JPEG",
+        "relative_path": "n03733281/ILSVRC2012_val_00010635_n03733281.JPEG"
+      },
+      {
+        "row": 64,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03764736/ILSVRC2012_val_00001770_n03764736.JPEG",
+        "relative_path": "n03764736/ILSVRC2012_val_00001770_n03764736.JPEG"
+      },
+      {
+        "row": 65,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03792782/ILSVRC2012_val_00045152_n03792782.JPEG",
+        "relative_path": "n03792782/ILSVRC2012_val_00045152_n03792782.JPEG"
+      },
+      {
+        "row": 66,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03832673/ILSVRC2012_val_00035068_n03832673.JPEG",
+        "relative_path": "n03832673/ILSVRC2012_val_00035068_n03832673.JPEG"
+      },
+      {
+        "row": 67,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03874293/ILSVRC2012_val_00038246_n03874293.JPEG",
+        "relative_path": "n03874293/ILSVRC2012_val_00038246_n03874293.JPEG"
+      },
+      {
+        "row": 68,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03884397/ILSVRC2012_val_00018337_n03884397.JPEG",
+        "relative_path": "n03884397/ILSVRC2012_val_00018337_n03884397.JPEG"
+      },
+      {
+        "row": 69,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03908714/ILSVRC2012_val_00034319_n03908714.JPEG",
+        "relative_path": "n03908714/ILSVRC2012_val_00034319_n03908714.JPEG"
+      },
+      {
+        "row": 70,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03929660/ILSVRC2012_val_00046594_n03929660.JPEG",
+        "relative_path": "n03929660/ILSVRC2012_val_00046594_n03929660.JPEG"
+      },
+      {
+        "row": 71,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03935335/ILSVRC2012_val_00030827_n03935335.JPEG",
+        "relative_path": "n03935335/ILSVRC2012_val_00030827_n03935335.JPEG"
+      },
+      {
+        "row": 72,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n03998194/ILSVRC2012_val_00020470_n03998194.JPEG",
+        "relative_path": "n03998194/ILSVRC2012_val_00020470_n03998194.JPEG"
+      },
+      {
+        "row": 73,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04008634/ILSVRC2012_val_00020190_n04008634.JPEG",
+        "relative_path": "n04008634/ILSVRC2012_val_00020190_n04008634.JPEG"
+      },
+      {
+        "row": 74,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04033901/ILSVRC2012_val_00034976_n04033901.JPEG",
+        "relative_path": "n04033901/ILSVRC2012_val_00034976_n04033901.JPEG"
+      },
+      {
+        "row": 75,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04033995/ILSVRC2012_val_00041150_n04033995.JPEG",
+        "relative_path": "n04033995/ILSVRC2012_val_00041150_n04033995.JPEG"
+      },
+      {
+        "row": 76,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04037443/ILSVRC2012_val_00001995_n04037443.JPEG",
+        "relative_path": "n04037443/ILSVRC2012_val_00001995_n04037443.JPEG"
+      },
+      {
+        "row": 77,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04086273/ILSVRC2012_val_00007170_n04086273.JPEG",
+        "relative_path": "n04086273/ILSVRC2012_val_00007170_n04086273.JPEG"
+      },
+      {
+        "row": 78,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04127249/ILSVRC2012_val_00016361_n04127249.JPEG",
+        "relative_path": "n04127249/ILSVRC2012_val_00016361_n04127249.JPEG"
+      },
+      {
+        "row": 79,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04131690/ILSVRC2012_val_00016485_n04131690.JPEG",
+        "relative_path": "n04131690/ILSVRC2012_val_00016485_n04131690.JPEG"
+      },
+      {
+        "row": 80,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04133789/ILSVRC2012_val_00007160_n04133789.JPEG",
+        "relative_path": "n04133789/ILSVRC2012_val_00007160_n04133789.JPEG"
+      },
+      {
+        "row": 81,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04136333/ILSVRC2012_val_00049844_n04136333.JPEG",
+        "relative_path": "n04136333/ILSVRC2012_val_00049844_n04136333.JPEG"
+      },
+      {
+        "row": 82,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04141076/ILSVRC2012_val_00043168_n04141076.JPEG",
+        "relative_path": "n04141076/ILSVRC2012_val_00043168_n04141076.JPEG"
+      },
+      {
+        "row": 83,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04266014/ILSVRC2012_val_00009277_n04266014.JPEG",
+        "relative_path": "n04266014/ILSVRC2012_val_00009277_n04266014.JPEG"
+      },
+      {
+        "row": 84,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04266014/ILSVRC2012_val_00046484_n04266014.JPEG",
+        "relative_path": "n04266014/ILSVRC2012_val_00046484_n04266014.JPEG"
+      },
+      {
+        "row": 85,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04270147/ILSVRC2012_val_00047766_n04270147.JPEG",
+        "relative_path": "n04270147/ILSVRC2012_val_00047766_n04270147.JPEG"
+      },
+      {
+        "row": 86,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04311174/ILSVRC2012_val_00036303_n04311174.JPEG",
+        "relative_path": "n04311174/ILSVRC2012_val_00036303_n04311174.JPEG"
+      },
+      {
+        "row": 87,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04370456/ILSVRC2012_val_00047168_n04370456.JPEG",
+        "relative_path": "n04370456/ILSVRC2012_val_00047168_n04370456.JPEG"
+      },
+      {
+        "row": 88,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04456115/ILSVRC2012_val_00013914_n04456115.JPEG",
+        "relative_path": "n04456115/ILSVRC2012_val_00013914_n04456115.JPEG"
+      },
+      {
+        "row": 89,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04462240/ILSVRC2012_val_00035396_n04462240.JPEG",
+        "relative_path": "n04462240/ILSVRC2012_val_00035396_n04462240.JPEG"
+      },
+      {
+        "row": 90,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04517823/ILSVRC2012_val_00036144_n04517823.JPEG",
+        "relative_path": "n04517823/ILSVRC2012_val_00036144_n04517823.JPEG"
+      },
+      {
+        "row": 91,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n04525038/ILSVRC2012_val_00029779_n04525038.JPEG",
+        "relative_path": "n04525038/ILSVRC2012_val_00029779_n04525038.JPEG"
+      },
+      {
+        "row": 92,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n07590611/ILSVRC2012_val_00044040_n07590611.JPEG",
+        "relative_path": "n07590611/ILSVRC2012_val_00044040_n07590611.JPEG"
+      },
+      {
+        "row": 93,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n07684084/ILSVRC2012_val_00032674_n07684084.JPEG",
+        "relative_path": "n07684084/ILSVRC2012_val_00032674_n07684084.JPEG"
+      },
+      {
+        "row": 94,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n07716906/ILSVRC2012_val_00047441_n07716906.JPEG",
+        "relative_path": "n07716906/ILSVRC2012_val_00047441_n07716906.JPEG"
+      },
+      {
+        "row": 95,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n07749582/ILSVRC2012_val_00027090_n07749582.JPEG",
+        "relative_path": "n07749582/ILSVRC2012_val_00027090_n07749582.JPEG"
+      },
+      {
+        "row": 96,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n07871810/ILSVRC2012_val_00018608_n07871810.JPEG",
+        "relative_path": "n07871810/ILSVRC2012_val_00018608_n07871810.JPEG"
+      },
+      {
+        "row": 97,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n07873807/ILSVRC2012_val_00035536_n07873807.JPEG",
+        "relative_path": "n07873807/ILSVRC2012_val_00035536_n07873807.JPEG"
+      },
+      {
+        "row": 98,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n09399592/ILSVRC2012_val_00042161_n09399592.JPEG",
+        "relative_path": "n09399592/ILSVRC2012_val_00042161_n09399592.JPEG"
+      },
+      {
+        "row": 99,
+        "source_path": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val/n13044778/ILSVRC2012_val_00044494_n13044778.JPEG",
+        "relative_path": "n13044778/ILSVRC2012_val_00044494_n13044778.JPEG"
+      }
+    ]
+  },
+  "columns": [
+    "Original (tokenizer input)",
+    "Decode without quantization",
+    "Decode after quantization"
+  ],
+  "reconstruction": {
+    "continuous_path": "decoder(post_quant_conv(quant_conv(encoder(x))))",
+    "quantized_path": "decoder(quantize(quant_conv(encoder(x))))",
+    "precision": "fp32",
+    "device": "cuda:0"
+  },
+  "outputs": {
+    "directory": "/data1/lhran/proj/vq-gan/taming-transformers/evaluation/vae/test_results/vqgan_f16_16384__imagenet_val__seed-23__20260804_170507",
+    "comparison_image": "/data1/lhran/proj/vq-gan/taming-transformers/evaluation/vae/test_results/vqgan_f16_16384__imagenet_val__seed-23__20260804_170507/reconstruction_comparison.png",
+    "metadata_json": "/data1/lhran/proj/vq-gan/taming-transformers/evaluation/vae/test_results/vqgan_f16_16384__imagenet_val__seed-23__20260804_170507/run_info.json"
+  },
+  "arguments": {
+    "config": "/data1/lhran/proj/vq-gan/taming-transformers/pretrained_models/vqgan_f16_16384/config.yaml",
+    "checkpoint": "/data1/lhran/proj/vq-gan/taming-transformers/pretrained_models/vqgan_f16_16384/model.ckpt",
+    "image_dir": "/data1/lhran/proj/vq-gan/taming-transformers/data/imagenet/val",
+    "num_images": 100,
+    "seed": 23,
+    "batch_size": 8,
+    "num_workers": 4,
+    "device": "cuda:0",
+    "precision": "fp32",
+    "image_size": 0,
+    "output_dir": null
+  }
+}

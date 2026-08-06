@@ -1,0 +1,75 @@
+model:
+  base_learning_rate: 4.5e-6
+  target: taming.models.vqgan_with_transform_larp.VQModel_larp
+  params:
+    embed_dim: 256
+    n_embed: 1024
+    prior_loss_weight: 0.06
+    prior_n_rounds: 2
+    prior_avg_loss_over_rounds: true
+    prior_no_grad_before_last_round: false
+    use_mix_ss: true
+    mix_ss_max_ratio: 0.5
+    mix_ss_peak_steps_ratio: 0.3
+    prior_latent_ce_temperature: 1.0
+    transformer_lr_mult: 50.0
+    # Normalize encoder latents and the effective codebook on every forward pass.
+    # The underlying embedding parameters remain unconstrained between optimizer steps.
+    latent_l2_normalized: true
+    latent_l2_normalize_eps: 1.0e-6
+    vq_legacy: false
+    transformerconfig:
+      vocab_size: 1024 #1024 codebook + language 50257
+      block_size: 256
+      max_seq_len: 256
+      n_ind: 256
+      l2_normalized: true
+      l2_normalize_eps: 1.0e-6
+      n_layer: 12
+      n_head: 8
+      n_embd: 256
+      embd_pdrop: 0.1
+      resid_pdrop: 0.1
+      attn_pdrop: 0.1
+    ddconfig:
+      double_z: False
+      z_channels: 256
+      resolution: 256
+      in_channels: 3
+      out_ch: 3
+      ch: 128
+      ch_mult: [ 1,1,2,2,4]  # num_down = len(ch_mult)-1
+      num_res_blocks: 2
+      attn_resolutions: [16]
+      dropout: 0.0
+
+    lossconfig:
+      target: taming.modules.losses.vqperceptual.VQLPIPSWithDiscriminator
+      params:
+        disc_conditional: False
+        disc_in_channels: 3
+        disc_start: 10000
+        disc_weight: 0.8
+        codebook_weight: 1.0
+
+data:
+  target: main.DataModuleFromConfig
+  params:
+    batch_size: 8
+    num_workers: 8
+    train:
+      target: taming.data.custom.CustomTrain
+      params:
+        training_images_list_file: /data1/lhran/proj/vq-gan/taming-transformers/data/roco/1/rocov2/medical_train.txt
+        size: 256
+    validation:
+      target: taming.data.custom.CustomTest
+      params:
+        test_images_list_file: /data1/lhran/proj/vq-gan/taming-transformers/data/roco/1/rocov2/medical_test.txt
+        size: 256
+    test:
+      target: taming.data.custom.CustomTest
+      params:
+        test_images_list_file: /data1/lhran/proj/vq-gan/taming-transformers/data/roco/1/rocov2/medical_test.txt
+        size: 256
+

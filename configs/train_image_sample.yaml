@@ -1,0 +1,68 @@
+model:
+  base_learning_rate: 4.5e-06
+  target: taming.models.cond_transformer.Net2NetTransformer
+  params:
+    cond_stage_key: image
+    transformer_config:
+      target: taming.modules.transformer.mingpt.GPT
+      params:
+        vocab_size: 1024 #1024 codebook
+        block_size: 348  # = 256 + 92 = dim(vqgan_latent_space,16x16) + dim(conditional_builder.embedding_dim)
+        n_layer: 18
+        n_head: 16
+        n_embd: 1536
+        embd_pdrop: 0.1
+        resid_pdrop: 0.1
+        attn_pdrop: 0.1
+    first_stage_config:
+      target: taming.models.vqgan.VQModel
+      params:
+        ckpt_path: /home/disk1/lihaoran/vq-gan/taming-transformers/logs/2025-11-14T05-48-50_custom_vqgan/checkpoints/last.ckpt
+        embed_dim: 256
+        n_embed: 1024
+        ddconfig:
+          double_z: false
+          z_channels: 256
+          resolution: 256
+          in_channels: 3
+          out_ch: 3
+          ch: 128
+          ch_mult:
+          - 1
+          - 1
+          - 2
+          - 2
+          - 4
+          num_res_blocks: 2
+          attn_resolutions:
+          - 16
+          dropout: 0.0
+        lossconfig:
+          target: taming.modules.losses.vqperceptual.VQLPIPSWithDiscriminator
+          params:
+            disc_conditional: false
+            disc_in_channels: 3
+            disc_start: 10000
+            disc_weight: 0.8
+            codebook_weight: 1.0
+    cond_stage_config:
+      target: taming.models.dummy_cond_stage.DummyCondStage
+      params:
+        conditional_key: image
+    unconditional: true
+
+data:
+  target: main.DataModuleFromConfig
+  params:
+    batch_size: 4
+    num_workers: 8
+    train:
+      target: taming.data.custom.CustomTrain
+      params:
+        training_images_list_file: /home/disk1/lihaoran/vq-gan/taming-transformers/data/roco/1/rocov2/medical_train.txt
+        size: 256
+    validation:
+      target: taming.data.custom.CustomTest
+      params:
+        test_images_list_file: /home/disk1/lihaoran/vq-gan/taming-transformers/data/roco/1/rocov2/medical_test.txt
+        size: 256

@@ -1,0 +1,1009 @@
+{
+  "test_configuration": {
+    "test_timestamp": "20260730_224730",
+    "started_at": "2026-07-30T22:47:30.108444+08:00",
+    "completed_at": "2026-07-30T22:54:16.282036+08:00",
+    "vq_log_dir": "/data1/lhran/proj/vq-gan/taming-transformers/logs/2026-07-29T23-40-25_my_vqgan_experiment",
+    "real_images_dir": "/data1/lhran/proj/vq-gan/taming-transformers/data/roco/1/rocov2/valid_images/valid",
+    "generated_images_dir": "/tmp/reconstruction_fid_2utt2440",
+    "generated_split_dirs": {
+      "split_a": "/tmp/reconstruction_fid_2utt2440/split_a",
+      "split_b": "/tmp/reconstruction_fid_2utt2440/split_b"
+    },
+    "generated_images_are_temporary": true,
+    "latent_path": "continuous_normalized",
+    "args": {
+      "image_dir": "/data1/lhran/proj/vq-gan/taming-transformers/data/roco/1/rocov2/valid_images/valid",
+      "log_dir": "/data1/lhran/proj/vq-gan/taming-transformers/logs/2026-07-29T23-40-25_my_vqgan_experiment",
+      "device": "cuda:0",
+      "precision": "fp32",
+      "reconstruction_batch_size": 16,
+      "fid_batch_size": 50,
+      "num_workers": 8,
+      "dims": 2048,
+      "analysis_top_k": 10,
+      "skip_paired_metrics": false,
+      "bypass_quantization": true,
+      "image_size": 0,
+      "seed": 23,
+      "min_split_ratio": 0.4,
+      "max_split_ratio": 0.6,
+      "max_images": 0,
+      "temp_dir": null,
+      "output_json": null,
+      "output_dir": "/data1/lhran/proj/vq-gan/taming-transformers/evaluation/t2i/test_results",
+      "recursive": false,
+      "allow_tf32": false,
+      "cudnn_benchmark": false
+    }
+  },
+  "image_dir": "/data1/lhran/proj/vq-gan/taming-transformers/data/roco/1/rocov2/valid_images/valid",
+  "log_dir": "/data1/lhran/proj/vq-gan/taming-transformers/logs/2026-07-29T23-40-25_my_vqgan_experiment",
+  "latent_path": "continuous_normalized",
+  "bypass_quantization": true,
+  "seed": 23,
+  "sampled_split_ratio": 0.49366677194847763,
+  "actual_split_ratio": 0.4936389337641357,
+  "split_a_count": 4889,
+  "split_b_count": 5015,
+  "reconstructed_a_vs_original_a_fid": 62.70044168736497,
+  "reconstructed_a_vs_reconstructed_b_fid": 9.618370675435644,
+  "reconstructed_a_vs_original_b_fid": 63.01964732787967,
+  "original_a_vs_original_b_fid": 11.541471147049059,
+  "fid_analysis": {
+    "reconstructed_a_vs_original_a": {
+      "fid": 62.70044168736497,
+      "mean_term": 14.917836011339276,
+      "covariance_term": 47.782605676025696,
+      "mean_term_percent": 23.792234328622648,
+      "covariance_term_percent": 76.20776567137735,
+      "covariance_trace_1": 206.03795471579878,
+      "covariance_trace_2": 213.2110769767569,
+      "cross_covariance_sqrt_trace": 185.733213008265,
+      "top_mean_shift_dimensions": [
+        {
+          "dimension": 311,
+          "contribution": 0.22608821168222062,
+          "mean_1": 1.087910222371373,
+          "mean_2": 0.6124228811284955
+        },
+        {
+          "dimension": 856,
+          "contribution": 0.21823438055382402,
+          "mean_1": 1.0160743172388025,
+          "mean_2": 0.5489186894723974
+        },
+        {
+          "dimension": 553,
+          "contribution": 0.1508137801354458,
+          "mean_1": 0.8511152776234184,
+          "mean_2": 0.462767778422708
+        },
+        {
+          "dimension": 306,
+          "contribution": 0.13747340454874665,
+          "mean_1": 0.8394864446196478,
+          "mean_2": 0.46871238329827297
+        },
+        {
+          "dimension": 754,
+          "contribution": 0.12857945032378312,
+          "mean_1": 0.8014346609197242,
+          "mean_2": 0.4428548924946454
+        },
+        {
+          "dimension": 1029,
+          "contribution": 0.12221590434945429,
+          "mean_1": 1.184432000633768,
+          "mean_2": 0.8348380871434811
+        },
+        {
+          "dimension": 834,
+          "contribution": 0.11645860631500976,
+          "mean_1": 0.7584033094206338,
+          "mean_2": 0.41714298896862206
+        },
+        {
+          "dimension": 442,
+          "contribution": 0.09909925977312123,
+          "mean_1": 0.7007511226541828,
+          "mean_2": 0.3859507735865218
+        },
+        {
+          "dimension": 824,
+          "contribution": 0.0984729946273784,
+          "mean_1": 0.8523419773517144,
+          "mean_2": 0.5385379069074666
+        },
+        {
+          "dimension": 205,
+          "contribution": 0.09713663868520754,
+          "mean_1": 0.7907509041104697,
+          "mean_2": 0.47908339106939646
+        }
+      ],
+      "top_marginal_variance_mismatches": [
+        {
+          "dimension": 824,
+          "absolute_variance_gap": 0.7585991848847811,
+          "variance_1": 1.0499017637893509,
+          "variance_2": 0.29130257890456973
+        },
+        {
+          "dimension": 622,
+          "absolute_variance_gap": 0.39106476136026136,
+          "variance_1": 0.5475409989678912,
+          "variance_2": 0.15647623760762985
+        },
+        {
+          "dimension": 834,
+          "absolute_variance_gap": 0.3716427159674257,
+          "variance_1": 0.5092919308974577,
+          "variance_2": 0.137649214930032
+        },
+        {
+          "dimension": 754,
+          "absolute_variance_gap": 0.3691162023490397,
+          "variance_1": 0.5656995204307025,
+          "variance_2": 0.1965833180816628
+        },
+        {
+          "dimension": 68,
+          "absolute_variance_gap": 0.35563959029578207,
+          "variance_1": 0.929530239372018,
+          "variance_2": 1.2851698296678
+        },
+        {
+          "dimension": 553,
+          "absolute_variance_gap": 0.3359172257442258,
+          "variance_1": 0.7826551990560822,
+          "variance_2": 0.4467379733118564
+        },
+        {
+          "dimension": 673,
+          "absolute_variance_gap": 0.3296062058846535,
+          "variance_1": 0.49519708440749033,
+          "variance_2": 0.16559087852283683
+        },
+        {
+          "dimension": 713,
+          "absolute_variance_gap": 0.31271131697578297,
+          "variance_1": 0.44069161376149646,
+          "variance_2": 0.1279802967857135
+        },
+        {
+          "dimension": 688,
+          "absolute_variance_gap": 0.312680328702694,
+          "variance_1": 0.46153497265684895,
+          "variance_2": 0.14885464395415496
+        },
+        {
+          "dimension": 1903,
+          "absolute_variance_gap": 0.27656970818293625,
+          "variance_1": 0.42859204306827614,
+          "variance_2": 0.7051617512512124
+        }
+      ],
+      "correlation_frobenius_distance": 164.14078397814345,
+      "mean_absolute_correlation_gap": 0.06272127457608148,
+      "top_correlation_mismatches": [
+        {
+          "dimension_1": 677,
+          "dimension_2": 688,
+          "absolute_correlation_gap": 0.5971602185684882,
+          "correlation_1": 0.7145717885859727,
+          "correlation_2": 0.11741157001748452
+        },
+        {
+          "dimension_1": 373,
+          "dimension_2": 673,
+          "absolute_correlation_gap": 0.579440646544255,
+          "correlation_1": 0.5745687522267902,
+          "correlation_2": -0.0048718943174648685
+        },
+        {
+          "dimension_1": 453,
+          "dimension_2": 708,
+          "absolute_correlation_gap": 0.5787516832396672,
+          "correlation_1": 0.6837870404906824,
+          "correlation_2": 0.1050353572510152
+        },
+        {
+          "dimension_1": 373,
+          "dimension_2": 381,
+          "absolute_correlation_gap": 0.5662558175150565,
+          "correlation_1": 0.509951545015383,
+          "correlation_2": -0.05630427249967346
+        },
+        {
+          "dimension_1": 45,
+          "dimension_2": 373,
+          "absolute_correlation_gap": 0.5660890674702744,
+          "correlation_1": 0.4601392096751782,
+          "correlation_2": -0.10594985779509625
+        },
+        {
+          "dimension_1": 677,
+          "dimension_2": 708,
+          "absolute_correlation_gap": 0.5614603914140966,
+          "correlation_1": 0.681456723775305,
+          "correlation_2": 0.11999633236120831
+        },
+        {
+          "dimension_1": 453,
+          "dimension_2": 677,
+          "absolute_correlation_gap": 0.5569531008791048,
+          "correlation_1": 0.6036231375011409,
+          "correlation_2": 0.046670036622036136
+        },
+        {
+          "dimension_1": 664,
+          "dimension_2": 677,
+          "absolute_correlation_gap": 0.5496010582958754,
+          "correlation_1": 0.6402787089980123,
+          "correlation_2": 0.09067765070213694
+        },
+        {
+          "dimension_1": 285,
+          "dimension_2": 1873,
+          "absolute_correlation_gap": 0.5477007637129193,
+          "correlation_1": -0.08628069544156784,
+          "correlation_2": 0.4614200682713515
+        },
+        {
+          "dimension_1": 677,
+          "dimension_2": 795,
+          "absolute_correlation_gap": 0.5456381286468965,
+          "correlation_1": 0.707505140831913,
+          "correlation_2": 0.1618670121850164
+        }
+      ],
+      "diagnostic_note": "Only mean_term and covariance_term sum to FID. Variance and correlation mismatch rankings are non-additive diagnostics."
+    },
+    "reconstructed_a_vs_reconstructed_b": {
+      "fid": 9.618370675435644,
+      "mean_term": 0.07066445778855515,
+      "covariance_term": 9.54770621764709,
+      "mean_term_percent": 0.7346822052619069,
+      "covariance_term_percent": 99.2653177947381,
+      "covariance_trace_1": 206.03795471579878,
+      "covariance_trace_2": 205.8480635152697,
+      "cross_covariance_sqrt_trace": 201.1691560067107,
+      "top_mean_shift_dimensions": [
+        {
+          "dimension": 824,
+          "contribution": 0.0005760461753520641,
+          "mean_1": 0.8523419773517144,
+          "mean_2": 0.8763429393189369
+        },
+        {
+          "dimension": 54,
+          "contribution": 0.0005717924155018405,
+          "mean_1": 0.5718680009541824,
+          "mean_2": 0.5957801822746275
+        },
+        {
+          "dimension": 754,
+          "contribution": 0.0005346317489331655,
+          "mean_1": 0.8014346609197242,
+          "mean_2": 0.7783125557185716
+        },
+        {
+          "dimension": 673,
+          "contribution": 0.00047537728639283965,
+          "mean_1": 0.5663560601272564,
+          "mean_2": 0.5881592086703645
+        },
+        {
+          "dimension": 1133,
+          "contribution": 0.0004349496952179998,
+          "mean_1": 0.5728191856313111,
+          "mean_2": 0.5936746332462149
+        },
+        {
+          "dimension": 45,
+          "contribution": 0.0003858137167968621,
+          "mean_1": 0.4510861919355021,
+          "mean_2": 0.4707283332850816
+        },
+        {
+          "dimension": 445,
+          "contribution": 0.00038184614740024926,
+          "mean_1": 0.6237888257115659,
+          "mean_2": 0.6042479417141555
+        },
+        {
+          "dimension": 1960,
+          "contribution": 0.0003719623305854443,
+          "mean_1": 0.40595296586141566,
+          "mean_2": 0.386666640898234
+        },
+        {
+          "dimension": 2024,
+          "contribution": 0.00036502208671234624,
+          "mean_1": 0.8062809211591722,
+          "mean_2": 0.7871753699576929
+        },
+        {
+          "dimension": 570,
+          "contribution": 0.0003553406215740811,
+          "mean_1": 0.45989710594292005,
+          "mean_2": 0.441046625270691
+        }
+      ],
+      "top_marginal_variance_mismatches": [
+        {
+          "dimension": 824,
+          "absolute_variance_gap": 0.07572256534382515,
+          "variance_1": 1.0499017637893509,
+          "variance_2": 1.125624329133176
+        },
+        {
+          "dimension": 68,
+          "absolute_variance_gap": 0.061172401659982945,
+          "variance_1": 0.929530239372018,
+          "variance_2": 0.868357837712035
+        },
+        {
+          "dimension": 673,
+          "absolute_variance_gap": 0.051023717796782275,
+          "variance_1": 0.49519708440749033,
+          "variance_2": 0.5462208022042726
+        },
+        {
+          "dimension": 834,
+          "absolute_variance_gap": 0.03929643013562245,
+          "variance_1": 0.5092919308974577,
+          "variance_2": 0.5485883610330802
+        },
+        {
+          "dimension": 635,
+          "absolute_variance_gap": 0.037631023667124286,
+          "variance_1": 0.39348005137749664,
+          "variance_2": 0.43111107504462093
+        },
+        {
+          "dimension": 328,
+          "absolute_variance_gap": 0.03739776448651194,
+          "variance_1": 0.2822985211619774,
+          "variance_2": 0.31969628564848934
+        },
+        {
+          "dimension": 1282,
+          "absolute_variance_gap": 0.03376959289951198,
+          "variance_1": 0.2818189313729316,
+          "variance_2": 0.3155885242724436
+        },
+        {
+          "dimension": 713,
+          "absolute_variance_gap": 0.032687968661815725,
+          "variance_1": 0.44069161376149646,
+          "variance_2": 0.4733795824233122
+        },
+        {
+          "dimension": 622,
+          "absolute_variance_gap": 0.03222139712543193,
+          "variance_1": 0.5475409989678912,
+          "variance_2": 0.5797623960933231
+        },
+        {
+          "dimension": 895,
+          "absolute_variance_gap": 0.030574655784006782,
+          "variance_1": 0.2311356537185546,
+          "variance_2": 0.20056099793454782
+        }
+      ],
+      "correlation_frobenius_distance": 41.46266007053776,
+      "mean_absolute_correlation_gap": 0.016123800971557297,
+      "top_correlation_mismatches": [
+        {
+          "dimension_1": 519,
+          "dimension_2": 739,
+          "absolute_correlation_gap": 0.11185838635460038,
+          "correlation_1": 0.3832239335913613,
+          "correlation_2": 0.27136554723676093
+        },
+        {
+          "dimension_1": 30,
+          "dimension_2": 1134,
+          "absolute_correlation_gap": 0.1104426815744802,
+          "correlation_1": 0.06297765590865706,
+          "correlation_2": -0.04746502566582315
+        },
+        {
+          "dimension_1": 474,
+          "dimension_2": 880,
+          "absolute_correlation_gap": 0.10626647446167442,
+          "correlation_1": -0.082033098604459,
+          "correlation_2": 0.02423337585721543
+        },
+        {
+          "dimension_1": 354,
+          "dimension_2": 1098,
+          "absolute_correlation_gap": 0.10137876045477155,
+          "correlation_1": 0.07203029348037289,
+          "correlation_2": -0.029348466974398666
+        },
+        {
+          "dimension_1": 215,
+          "dimension_2": 1072,
+          "absolute_correlation_gap": 0.1011904579247254,
+          "correlation_1": -0.046344095507506074,
+          "correlation_2": 0.05484636241721933
+        },
+        {
+          "dimension_1": 506,
+          "dimension_2": 834,
+          "absolute_correlation_gap": 0.10113985512169049,
+          "correlation_1": 0.1340123034503985,
+          "correlation_2": 0.235152158572089
+        },
+        {
+          "dimension_1": 177,
+          "dimension_2": 1918,
+          "absolute_correlation_gap": 0.09783599601459879,
+          "correlation_1": 0.06483714693025262,
+          "correlation_2": 0.1626731429448514
+        },
+        {
+          "dimension_1": 577,
+          "dimension_2": 1519,
+          "absolute_correlation_gap": 0.0974906617870477,
+          "correlation_1": 0.21740530658310495,
+          "correlation_2": 0.11991464479605725
+        },
+        {
+          "dimension_1": 215,
+          "dimension_2": 994,
+          "absolute_correlation_gap": 0.09585567382569385,
+          "correlation_1": 0.20383151588181703,
+          "correlation_2": 0.10797584205612318
+        },
+        {
+          "dimension_1": 656,
+          "dimension_2": 807,
+          "absolute_correlation_gap": 0.0954142343251761,
+          "correlation_1": 0.17688771616070664,
+          "correlation_2": 0.27230195048588274
+        }
+      ],
+      "diagnostic_note": "Only mean_term and covariance_term sum to FID. Variance and correlation mismatch rankings are non-additive diagnostics."
+    },
+    "reconstructed_a_vs_original_b": {
+      "fid": 63.01964732787967,
+      "mean_term": 15.002636943817192,
+      "covariance_term": 48.01701038406247,
+      "mean_term_percent": 23.806285150662973,
+      "covariance_term_percent": 76.19371484933701,
+      "covariance_trace_1": 206.03795471579878,
+      "covariance_trace_2": 213.41953655591576,
+      "cross_covariance_sqrt_trace": 185.72024044382601,
+      "top_mean_shift_dimensions": [
+        {
+          "dimension": 311,
+          "contribution": 0.22799103779965074,
+          "mean_1": 1.087910222371373,
+          "mean_2": 0.6104261516426724
+        },
+        {
+          "dimension": 856,
+          "contribution": 0.21437142431051567,
+          "mean_1": 1.0160743172388025,
+          "mean_2": 0.5530716992002911
+        },
+        {
+          "dimension": 306,
+          "contribution": 0.14508320339362052,
+          "mean_1": 0.8394864446196478,
+          "mean_2": 0.4585885535863415
+        },
+        {
+          "dimension": 553,
+          "contribution": 0.14234591755498194,
+          "mean_1": 0.8511152776234184,
+          "mean_2": 0.47382769824267346
+        },
+        {
+          "dimension": 754,
+          "contribution": 0.13036400614152852,
+          "mean_1": 0.8014346609197242,
+          "mean_2": 0.44037510054009854
+        },
+        {
+          "dimension": 834,
+          "contribution": 0.12172263656609819,
+          "mean_1": 0.7584033094206338,
+          "mean_2": 0.40951559601401616
+        },
+        {
+          "dimension": 1029,
+          "contribution": 0.11543333565214285,
+          "mean_1": 1.184432000633768,
+          "mean_2": 0.8446771836669694
+        },
+        {
+          "dimension": 205,
+          "contribution": 0.10036864318762648,
+          "mean_1": 0.7907509041104697,
+          "mean_2": 0.47394079823058066
+        },
+        {
+          "dimension": 442,
+          "contribution": 0.09716805658144947,
+          "mean_1": 0.7007511226541828,
+          "mean_2": 0.38903321078280917
+        },
+        {
+          "dimension": 1871,
+          "contribution": 0.09371124836074216,
+          "mean_1": 0.44254074287517114,
+          "mean_2": 0.7486636730204678
+        }
+      ],
+      "top_marginal_variance_mismatches": [
+        {
+          "dimension": 824,
+          "absolute_variance_gap": 0.7227579428026019,
+          "variance_1": 1.0499017637893509,
+          "variance_2": 0.327143820986749
+        },
+        {
+          "dimension": 68,
+          "absolute_variance_gap": 0.3751123197046782,
+          "variance_1": 0.929530239372018,
+          "variance_2": 1.3046425590766961
+        },
+        {
+          "dimension": 622,
+          "absolute_variance_gap": 0.37498624946418824,
+          "variance_1": 0.5475409989678912,
+          "variance_2": 0.17255474950370295
+        },
+        {
+          "dimension": 834,
+          "absolute_variance_gap": 0.3733031707548572,
+          "variance_1": 0.5092919308974577,
+          "variance_2": 0.13598876014260053
+        },
+        {
+          "dimension": 754,
+          "absolute_variance_gap": 0.36833139130635983,
+          "variance_1": 0.5656995204307025,
+          "variance_2": 0.19736812912434265
+        },
+        {
+          "dimension": 553,
+          "absolute_variance_gap": 0.32329519356092734,
+          "variance_1": 0.7826551990560822,
+          "variance_2": 0.4593600054951548
+        },
+        {
+          "dimension": 673,
+          "absolute_variance_gap": 0.3128604512575072,
+          "variance_1": 0.49519708440749033,
+          "variance_2": 0.1823366331499831
+        },
+        {
+          "dimension": 688,
+          "absolute_variance_gap": 0.3039090319373239,
+          "variance_1": 0.46153497265684895,
+          "variance_2": 0.15762594071952504
+        },
+        {
+          "dimension": 713,
+          "absolute_variance_gap": 0.30037871114255876,
+          "variance_1": 0.44069161376149646,
+          "variance_2": 0.14031290261893772
+        },
+        {
+          "dimension": 955,
+          "absolute_variance_gap": 0.271188621399567,
+          "variance_1": 0.09465304721701173,
+          "variance_2": 0.36584166861657874
+        }
+      ],
+      "correlation_frobenius_distance": 165.01173933419338,
+      "mean_absolute_correlation_gap": 0.0630882784868068,
+      "top_correlation_mismatches": [
+        {
+          "dimension_1": 677,
+          "dimension_2": 688,
+          "absolute_correlation_gap": 0.5891194457967979,
+          "correlation_1": 0.7145717885859727,
+          "correlation_2": 0.12545234278917478
+        },
+        {
+          "dimension_1": 45,
+          "dimension_2": 373,
+          "absolute_correlation_gap": 0.5817344032223242,
+          "correlation_1": 0.4601392096751782,
+          "correlation_2": -0.12159519354714596
+        },
+        {
+          "dimension_1": 664,
+          "dimension_2": 677,
+          "absolute_correlation_gap": 0.569894211755404,
+          "correlation_1": 0.6402787089980123,
+          "correlation_2": 0.07038449724260826
+        },
+        {
+          "dimension_1": 373,
+          "dimension_2": 708,
+          "absolute_correlation_gap": 0.5627486214470454,
+          "correlation_1": 0.5553340091626986,
+          "correlation_2": -0.00741461228434686
+        },
+        {
+          "dimension_1": 453,
+          "dimension_2": 708,
+          "absolute_correlation_gap": 0.5598446355524374,
+          "correlation_1": 0.6837870404906824,
+          "correlation_2": 0.1239424049382451
+        },
+        {
+          "dimension_1": 373,
+          "dimension_2": 381,
+          "absolute_correlation_gap": 0.5575010149782107,
+          "correlation_1": 0.509951545015383,
+          "correlation_2": -0.04754946996282769
+        },
+        {
+          "dimension_1": 373,
+          "dimension_2": 673,
+          "absolute_correlation_gap": 0.5569072744039295,
+          "correlation_1": 0.5745687522267902,
+          "correlation_2": 0.017661477822860656
+        },
+        {
+          "dimension_1": 677,
+          "dimension_2": 708,
+          "absolute_correlation_gap": 0.5547020766428493,
+          "correlation_1": 0.681456723775305,
+          "correlation_2": 0.12675464713245568
+        },
+        {
+          "dimension_1": 453,
+          "dimension_2": 677,
+          "absolute_correlation_gap": 0.5533951986725139,
+          "correlation_1": 0.6036231375011409,
+          "correlation_2": 0.05022793882862709
+        },
+        {
+          "dimension_1": 285,
+          "dimension_2": 1873,
+          "absolute_correlation_gap": 0.5507037477319676,
+          "correlation_1": -0.08628069544156784,
+          "correlation_2": 0.46442305229039976
+        }
+      ],
+      "diagnostic_note": "Only mean_term and covariance_term sum to FID. Variance and correlation mismatch rankings are non-additive diagnostics."
+    },
+    "original_a_vs_original_b": {
+      "fid": 11.541471147049059,
+      "mean_term": 0.08432859948848025,
+      "covariance_term": 11.45714254756058,
+      "mean_term_percent": 0.7306572828892919,
+      "covariance_term_percent": 99.26934271711072,
+      "covariance_trace_1": 213.2110769767569,
+      "covariance_trace_2": 213.41953655591576,
+      "cross_covariance_sqrt_trace": 207.58673549255604,
+      "top_mean_shift_dimensions": [
+        {
+          "dimension": 1093,
+          "contribution": 0.001021889644293939,
+          "mean_1": 0.6412527822917586,
+          "mean_2": 0.6732197909771821
+        },
+        {
+          "dimension": 1326,
+          "contribution": 0.0009543172742682508,
+          "mean_1": 0.6946890643459611,
+          "mean_2": 0.7255810904088184
+        },
+        {
+          "dimension": 446,
+          "contribution": 0.000710244293791441,
+          "mean_1": 0.42164757584148643,
+          "mean_2": 0.44829798472749494
+        },
+        {
+          "dimension": 1753,
+          "contribution": 0.0006812809208207056,
+          "mean_1": 0.5284918803828003,
+          "mean_2": 0.5545932389838522
+        },
+        {
+          "dimension": 1897,
+          "contribution": 0.0006654923870127405,
+          "mean_1": 0.3989823291794888,
+          "mean_2": 0.424779468304065
+        },
+        {
+          "dimension": 479,
+          "contribution": 0.0006303412857028205,
+          "mean_1": 0.5281071246032876,
+          "mean_2": 0.5532137230527554
+        },
+        {
+          "dimension": 635,
+          "contribution": 0.0006259019245805702,
+          "mean_1": 0.47620429013751536,
+          "mean_2": 0.5012223221260745
+        },
+        {
+          "dimension": 1704,
+          "contribution": 0.0005655579266872299,
+          "mean_1": 0.650502518262572,
+          "mean_2": 0.674283980090795
+        },
+        {
+          "dimension": 1871,
+          "contribution": 0.0005325354093399928,
+          "mean_1": 0.725586944280458,
+          "mean_2": 0.7486636730204678
+        },
+        {
+          "dimension": 1790,
+          "contribution": 0.00053112323161665,
+          "mean_1": 0.5444743883671906,
+          "mean_2": 0.5214282773803744
+        }
+      ],
+      "top_marginal_variance_mismatches": [
+        {
+          "dimension": 558,
+          "absolute_variance_gap": 0.04461465043985957,
+          "variance_1": 0.5001891501236074,
+          "variance_2": 0.544803800563467
+        },
+        {
+          "dimension": 926,
+          "absolute_variance_gap": 0.03890778434207007,
+          "variance_1": 0.15776813407063192,
+          "variance_2": 0.11886034972856185
+        },
+        {
+          "dimension": 824,
+          "absolute_variance_gap": 0.03584124208217926,
+          "variance_1": 0.29130257890456973,
+          "variance_2": 0.327143820986749
+        },
+        {
+          "dimension": 248,
+          "absolute_variance_gap": 0.032346247315908516,
+          "variance_1": 0.6695009541649048,
+          "variance_2": 0.7018472014808134
+        },
+        {
+          "dimension": 570,
+          "absolute_variance_gap": 0.031520627012501024,
+          "variance_1": 0.30204257606892554,
+          "variance_2": 0.2705219490564245
+        },
+        {
+          "dimension": 548,
+          "absolute_variance_gap": 0.03140848746964775,
+          "variance_1": 0.3246123208474846,
+          "variance_2": 0.29320383337783684
+        },
+        {
+          "dimension": 479,
+          "absolute_variance_gap": 0.03078984778294533,
+          "variance_1": 0.19123581704946055,
+          "variance_2": 0.22202566483240588
+        },
+        {
+          "dimension": 1017,
+          "absolute_variance_gap": 0.028888867625411777,
+          "variance_1": 0.11867014612969458,
+          "variance_2": 0.14755901375510636
+        },
+        {
+          "dimension": 921,
+          "absolute_variance_gap": 0.027937147523093647,
+          "variance_1": 0.1641384222161847,
+          "variance_2": 0.19207556973927833
+        },
+        {
+          "dimension": 1873,
+          "absolute_variance_gap": 0.025652075765368515,
+          "variance_1": 0.2501871126168292,
+          "variance_2": 0.22453503685146067
+        }
+      ],
+      "correlation_frobenius_distance": 41.41971611221695,
+      "mean_absolute_correlation_gap": 0.016101284986261455,
+      "top_correlation_mismatches": [
+        {
+          "dimension_1": 903,
+          "dimension_2": 1710,
+          "absolute_correlation_gap": 0.11928242870062046,
+          "correlation_1": 0.04177760655002012,
+          "correlation_2": 0.16106003525064058
+        },
+        {
+          "dimension_1": 780,
+          "dimension_2": 1328,
+          "absolute_correlation_gap": 0.11671018784241464,
+          "correlation_1": 0.22436662497301357,
+          "correlation_2": 0.10765643713059893
+        },
+        {
+          "dimension_1": 903,
+          "dimension_2": 1088,
+          "absolute_correlation_gap": 0.11386784750173451,
+          "correlation_1": 0.046548467418066564,
+          "correlation_2": 0.16041631491980107
+        },
+        {
+          "dimension_1": 758,
+          "dimension_2": 1710,
+          "absolute_correlation_gap": 0.10649974808531297,
+          "correlation_1": 0.12456089454675141,
+          "correlation_2": 0.23106064263206438
+        },
+        {
+          "dimension_1": 481,
+          "dimension_2": 1997,
+          "absolute_correlation_gap": 0.10554110887351138,
+          "correlation_1": 0.2060805365396132,
+          "correlation_2": 0.10053942766610181
+        },
+        {
+          "dimension_1": 956,
+          "dimension_2": 1735,
+          "absolute_correlation_gap": 0.1053724697834568,
+          "correlation_1": 0.03338910773212642,
+          "correlation_2": 0.1387615775155832
+        },
+        {
+          "dimension_1": 376,
+          "dimension_2": 1023,
+          "absolute_correlation_gap": 0.10433415727152165,
+          "correlation_1": 0.08392149901803417,
+          "correlation_2": 0.18825565628955582
+        },
+        {
+          "dimension_1": 1,
+          "dimension_2": 1424,
+          "absolute_correlation_gap": 0.1040303377312536,
+          "correlation_1": 0.06962699836338752,
+          "correlation_2": 0.17365733609464112
+        },
+        {
+          "dimension_1": 758,
+          "dimension_2": 1088,
+          "absolute_correlation_gap": 0.10200458797244848,
+          "correlation_1": 0.08861684857286999,
+          "correlation_2": 0.19062143654531846
+        },
+        {
+          "dimension_1": 335,
+          "dimension_2": 1952,
+          "absolute_correlation_gap": 0.10156905358423571,
+          "correlation_1": 0.017814969818866717,
+          "correlation_2": -0.08375408376536898
+        }
+      ],
+      "diagnostic_note": "Only mean_term and covariance_term sum to FID. Variance and correlation mismatch rankings are non-additive diagnostics."
+    }
+  },
+  "paired_psnr_db_mean": 20.920714392608126,
+  "paired_ssim_mean": 0.6053806885983645,
+  "paired_lpips_vgg_mean": 0.3720417414846046,
+  "paired_reconstruction_metrics": {
+    "definitions": {
+      "psnr_db": "RGB PSNR in dB on [0,1]; higher is better; MSE is floored at 1e-12 (maximum 120 dB)",
+      "ssim": "RGB SSIM on [0,1], Gaussian 11x11 window; higher is better",
+      "lpips_vgg": "Training-matched taming VGG-LPIPS on [-1,1]; lower is better"
+    },
+    "pairing": "Each center-cropped source image is compared with its own reconstruction",
+    "overall": {
+      "psnr_db": {
+        "count": 9904,
+        "mean": 20.920714392608126,
+        "std": 2.329292115592237,
+        "median": 20.762889862060547,
+        "p05": 17.39428119659424,
+        "p95": 24.866104125976562,
+        "min": 11.056650161743164,
+        "max": 31.546707153320312
+      },
+      "ssim": {
+        "count": 9904,
+        "mean": 0.6053806885983645,
+        "std": 0.1339700680319254,
+        "median": 0.6058653891086578,
+        "p05": 0.38643030673265455,
+        "p95": 0.8210813730955124,
+        "min": 0.1517239660024643,
+        "max": 0.9438018798828125
+      },
+      "lpips_vgg": {
+        "count": 9904,
+        "mean": 0.3720417414846046,
+        "std": 0.06577012744425137,
+        "median": 0.3761897385120392,
+        "p05": 0.2555459663271904,
+        "p95": 0.4745639905333519,
+        "min": 0.10945580899715424,
+        "max": 0.6313467025756836
+      }
+    },
+    "split_a": {
+      "psnr_db": {
+        "count": 4889,
+        "mean": 20.87517437941703,
+        "std": 2.3114199401391566,
+        "median": 20.717647552490234,
+        "p05": 17.338543701171876,
+        "p95": 24.840796661376952,
+        "min": 12.22843074798584,
+        "max": 30.7100887298584
+      },
+      "ssim": {
+        "count": 4889,
+        "mean": 0.6033322497681134,
+        "std": 0.1318204845851636,
+        "median": 0.6018999218940735,
+        "p05": 0.3902042031288147,
+        "p95": 0.8178920149803158,
+        "min": 0.16299284994602203,
+        "max": 0.9438018798828125
+      },
+      "lpips_vgg": {
+        "count": 4889,
+        "mean": 0.37184744762737926,
+        "std": 0.06628387667921139,
+        "median": 0.3758258819580078,
+        "p05": 0.2554899215698242,
+        "p95": 0.4748222112655639,
+        "min": 0.1433938443660736,
+        "max": 0.6313467025756836
+      }
+    },
+    "split_b": {
+      "psnr_db": {
+        "count": 5015,
+        "mean": 20.96511022999422,
+        "std": 2.345733312954532,
+        "median": 20.813982009887695,
+        "p05": 17.4334867477417,
+        "p95": 24.88691463470459,
+        "min": 11.056650161743164,
+        "max": 31.546707153320312
+      },
+      "ssim": {
+        "count": 5015,
+        "mean": 0.6073776611688724,
+        "std": 0.13600325307514088,
+        "median": 0.610680103302002,
+        "p05": 0.3850389331579208,
+        "p95": 0.8246297299861908,
+        "min": 0.1517239660024643,
+        "max": 0.9372269511222839
+      },
+      "lpips_vgg": {
+        "count": 5015,
+        "mean": 0.37223115378130944,
+        "std": 0.0652648363426486,
+        "median": 0.3765977621078491,
+        "p05": 0.25584082901477817,
+        "p95": 0.4743254005908967,
+        "min": 0.10945580899715424,
+        "max": 0.6190677881240845
+      }
+    }
+  },
+  "analysis_top_k": 10,
+  "analysis_explanation": {
+    "exact_identity": "FID = mean_term + covariance_term",
+    "mean_term": "Squared distance between Inception feature means",
+    "covariance_term": "Difference in feature spread and covariance structure",
+    "same_image_reconstruction": "reconstructed_A vs original_A isolates reconstruction shift",
+    "split_baseline": "original_A vs original_B estimates finite-sample/split noise",
+    "feature_rankings": "Variance/correlation rankings are diagnostic and do not sum to FID"
+  },
+  "image_size": 256,
+  "dims": 2048
+}

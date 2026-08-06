@@ -22,7 +22,7 @@ class Net2NetTransformer(pl.LightningModule):
                  ckpt_path=None,
                  ignore_keys=[],
                  first_stage_key="image",
-                 cond_stage_key="depth",
+                 cond_stage_key="Caption",
                  downsample_cond_size=-1,
                  pkeep=1.0,
                  sos_token=0,
@@ -44,7 +44,7 @@ class Net2NetTransformer(pl.LightningModule):
             self.init_from_ckpt(ckpt_path, ignore_keys=ignore_keys)
         self.downsample_cond_size = downsample_cond_size
         self.pkeep = pkeep
-
+        # self.shift = self.cond_stage_model.vocab_size
     def init_from_ckpt(self, path, ignore_keys=list()):
         sd = torch.load(path, map_location="cpu")["state_dict"]
         for k in sd.keys():
@@ -90,7 +90,7 @@ class Net2NetTransformer(pl.LightningModule):
             a_indices = mask*z_indices+(1-mask)*r_indices
         else:
             a_indices = z_indices
-
+        # print("cz shape",c_indices.shape,a_indices.shape)
         cz_indices = torch.cat((c_indices, a_indices), dim=1)
 
         # target includes all sequence elements (no need to handle first one
@@ -98,9 +98,12 @@ class Net2NetTransformer(pl.LightningModule):
         target = z_indices
         # make the prediction
         logits, _ = self.transformer(cz_indices[:, :-1])
+        # print("logits computed",logits.shape)
+        # print("success transformerd")
         # cut off conditioning outputs - output i corresponds to p(z_i | z_{<i}, c)
         logits = logits[:, c_indices.shape[1]-1:]
-
+        # print("logits shape",logits.shape)
+        # print("target shape",target.shape)
         return logits, target
 
     def top_k_logits(self, logits, k):
@@ -112,6 +115,7 @@ class Net2NetTransformer(pl.LightningModule):
     @torch.no_grad()
     def sample(self, x, c, steps, temperature=1.0, sample=False, top_k=None,
                callback=lambda k: None):
+        # print("sampling called")
         x = torch.cat((c,x),dim=1)
         block_size = self.transformer.get_block_size()
         assert not self.transformer.training
@@ -167,23 +171,32 @@ class Net2NetTransformer(pl.LightningModule):
 
     @torch.no_grad()
     def encode_to_z(self, x):
+        # print(f"Input device: {x.device}, Model device: {next(self.first_stage_model.parameters()).device}")
+        x = x.to(next(self.first_stage_model.parameters()).device)  # 确保数据在同一个设备上
         quant_z, _, info = self.first_stage_model.encode(x)
         indices = info[2].view(quant_z.shape[0], -1)
         indices = self.permuter(indices)
+        indices += self.cond_stage_model.vocab_size  # shift by cond vocab size
         return quant_z, indices
 
     @torch.no_grad()
     def encode_to_c(self, c):
+        # print(f"Input shape to encoder_c: {c.shape}")
+        # print(f"Input device: {c.device}")
+        # print("type c",c.dtype)
         if self.downsample_cond_size > -1:
             c = F.interpolate(c, size=(self.downsample_cond_size, self.downsample_cond_size))
         quant_c, _, [_,_,indices] = self.cond_stage_model.encode(c)
         if len(indices.shape) > 2:
             indices = indices.view(c.shape[0], -1)
-        return quant_c, indices
+        # print("type indice ",indices.dtype)
+        return quant_c, indices.long()
 
     @torch.no_grad()
     def decode_to_img(self, index, zshape):
         index = self.permuter(index, reverse=True)
+        # if(torch.max(index) >1024):
+        #     print("WARNING: index greater than codebook size")
         bhwc = (zshape[0],zshape[2],zshape[3],zshape[1])
         quant_z = self.first_stage_model.quantize.get_codebook_entry(
             index.reshape(-1), shape=bhwc)
@@ -193,7 +206,7 @@ class Net2NetTransformer(pl.LightningModule):
     @torch.no_grad()
     def log_images(self, batch, temperature=None, top_k=None, callback=None, lr_interface=False, **kwargs):
         log = dict()
-
+        # print("log_images called")
         N = 4
         if lr_interface:
             x, c = self.get_xc(batch, N, diffuse=False, upsample_factor=8)
@@ -213,6 +226,8 @@ class Net2NetTransformer(pl.LightningModule):
                                    sample=True,
                                    top_k=top_k if top_k is not None else 100,
                                    callback=callback if callback is not None else lambda k: None)
+        # print("MAX min index sample",torch.max(index_sample),torch.min(index_sample))
+        # assert torch.max(index_sample) <1024
         x_sample = self.decode_to_img(index_sample, quant_z.shape)
 
         # sample
@@ -223,6 +238,8 @@ class Net2NetTransformer(pl.LightningModule):
                                    sample=True,
                                    top_k=top_k if top_k is not None else 100,
                                    callback=callback if callback is not None else lambda k: None)
+        # print("MAX min index sample",torch.max(index_sample),torch.min(index_sample))
+        # assert torch.max(index_sample) <1024
         x_sample_nopix = self.decode_to_img(index_sample, quant_z.shape)
 
         # det sample
@@ -231,6 +248,8 @@ class Net2NetTransformer(pl.LightningModule):
                                    steps=z_indices.shape[1],
                                    sample=False,
                                    callback=callback if callback is not None else lambda k: None)
+        # print("MAX min index sample",torch.max(index_sample),torch.min(index_sample))
+        # assert torch.max(index_sample) <1024
         x_sample_det = self.decode_to_img(index_sample, quant_z.shape)
 
         # reconstruction
@@ -269,6 +288,7 @@ class Net2NetTransformer(pl.LightningModule):
         log["samples_half"] = x_sample
         log["samples_nopix"] = x_sample_nopix
         log["samples_det"] = x_sample_det
+        # print("log_images completed")
         return log
 
     def get_input(self, key, batch):
@@ -290,9 +310,11 @@ class Net2NetTransformer(pl.LightningModule):
         return x, c
 
     def shared_step(self, batch, batch_idx):
+        print("entered shared step")
         x, c = self.get_xc(batch)
         logits, target = self(x, c)
         loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), target.reshape(-1))
+        print("loss computed",loss.item())
         return loss
 
     def training_step(self, batch, batch_idx):

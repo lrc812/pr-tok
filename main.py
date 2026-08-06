@@ -10,9 +10,24 @@ from pytorch_lightning import seed_everything
 from pytorch_lightning.trainer import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint, Callback, LearningRateMonitor
 from pytorch_lightning.utilities import rank_zero_only
-
+import logging
 from taming.data.utils import custom_collate
+import warnings
 
+
+torch.set_warn_always(False)
+# 1. 忽略所有标准警告
+warnings.filterwarnings("ignore")
+
+
+# 3. 设置日志级别
+logging.getLogger("pytorch_lightning").setLevel(logging.ERROR)
+logging.getLogger("lightning").setLevel(logging.ERROR)
+logging.basicConfig(level=logging.ERROR)
+
+# 4. 设置环境变量（确保在导入其他库之前设置）
+os.environ['PYTHONWARNINGS'] = 'ignore'
+os.environ['PL_DISABLE_NEW_LOGGER'] = '1'  # 禁用 PyTorch Lightning 的新日志器
 
 def get_obj_from_str(string, reload=False):
     module, cls = string.rsplit(".", 1)
@@ -186,7 +201,7 @@ class SetupCallback(Callback):
         self.config = config
         self.lightning_config = lightning_config
 
-    def on_pretrain_routine_start(self, trainer, pl_module):
+    def on_fit_start(self, trainer, pl_module):
         if trainer.global_rank == 0:
             # Create logdirs and save configs
             os.makedirs(self.logdir, exist_ok=True)
@@ -194,25 +209,25 @@ class SetupCallback(Callback):
             os.makedirs(self.cfgdir, exist_ok=True)
 
             print("Project config")
-            print(self.config.pretty())
+            print(OmegaConf.to_yaml(self.config))
             OmegaConf.save(self.config,
                            os.path.join(self.cfgdir, "{}-project.yaml".format(self.now)))
 
             print("Lightning config")
-            print(self.lightning_config.pretty())
+            print(OmegaConf.to_yaml(self.lightning_config))
             OmegaConf.save(OmegaConf.create({"lightning": self.lightning_config}),
                            os.path.join(self.cfgdir, "{}-lightning.yaml".format(self.now)))
 
-        else:
-            # ModelCheckpoint callback created log directory --- remove it
-            if not self.resume and os.path.exists(self.logdir):
-                dst, name = os.path.split(self.logdir)
-                dst = os.path.join(dst, "child_runs", name)
-                os.makedirs(os.path.split(dst)[0], exist_ok=True)
-                try:
-                    os.rename(self.logdir, dst)
-                except FileNotFoundError:
-                    pass
+        # else:
+        #     # ModelCheckpoint callback created log directory --- remove it
+        #     if not self.resume and os.path.exists(self.logdir):
+        #         dst, name = os.path.split(self.logdir)
+        #         dst = os.path.join(dst, "child_runs", name)
+        #         os.makedirs(os.path.split(dst)[0], exist_ok=True)
+        #         try:
+        #             os.rename(self.logdir, dst)
+        #         except FileNotFoundError:
+        #             pass
 
 
 class ImageLogger(Callback):
@@ -222,7 +237,7 @@ class ImageLogger(Callback):
         self.max_images = max_images
         self.logger_log_images = {
             pl.loggers.WandbLogger: self._wandb,
-            pl.loggers.TestTubeLogger: self._testtube,
+            pl.loggers.TensorBoardLogger: self._testtube,
         }
         self.log_steps = [2 ** n for n in range(int(np.log2(self.batch_freq)) + 1)]
         if not increase_log_steps:
@@ -291,8 +306,10 @@ class ImageLogger(Callback):
                     if self.clamp:
                         images[k] = torch.clamp(images[k], -1., 1.)
 
-            self.log_local(pl_module.logger.save_dir, split, images,
-                           pl_module.global_step, pl_module.current_epoch, batch_idx)
+            save_dir = getattr(pl_module.logger, "save_dir", None)
+            if save_dir is not None:
+                self.log_local(save_dir, split, images,
+                               pl_module.global_step, pl_module.current_epoch, batch_idx)
 
             logger_log_images = self.logger_log_images.get(logger, lambda *args, **kwargs: None)
             logger_log_images(pl_module, images, pl_module.global_step, split)
@@ -309,10 +326,10 @@ class ImageLogger(Callback):
             return True
         return False
 
-    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx):
+    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
         self.log_img(pl_module, batch, batch_idx, split="train")
 
-    def on_validation_batch_end(self, trainer, pl_module, outputs, batch, batch_idx, dataloader_idx):
+    def on_validation_batch_end(self, trainer, pl_module, outputs, batch, batch_idx,dataloader_idx):
         self.log_img(pl_module, batch, batch_idx, split="val")
 
 
@@ -358,7 +375,8 @@ if __name__ == "__main__":
     #           target: importpath
     #           params:
     #               key: value
-
+    import warnings
+    warnings.filterwarnings("ignore", category=UserWarning)
     now = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
 
     # add cwd for convenience and to make classes in this file available when
@@ -453,17 +471,19 @@ if __name__ == "__main__":
                     "id": nowname,
                 }
             },
-            "testtube": {
-                "target": "pytorch_lightning.loggers.TestTubeLogger",
+            "tensorboard": {
+                "target": "pytorch_lightning.loggers.TensorBoardLogger",
                 "params": {
-                    "name": "testtube",
+                    "name": "tensorboard",
                     "save_dir": logdir,
                 }
             },
         }
-        default_logger_cfg = default_logger_cfgs["testtube"]
-        logger_cfg = lightning_config.logger or OmegaConf.create()
+        default_logger_cfg = default_logger_cfgs["tensorboard"]
+        logger_cfg = lightning_config.get("logger", None) or OmegaConf.create()
         logger_cfg = OmegaConf.merge(default_logger_cfg, logger_cfg)
+        if isinstance(logger_cfg.get("params", {}).get("hparams"), dict):
+            logger_cfg["params"]["hparams"] = OmegaConf.create(logger_cfg["params"]["hparams"])
         trainer_kwargs["logger"] = instantiate_from_config(logger_cfg)
 
         # modelcheckpoint - use TrainResult/EvalResult(checkpoint_on=metric) to
@@ -482,9 +502,15 @@ if __name__ == "__main__":
             default_modelckpt_cfg["params"]["monitor"] = model.monitor
             default_modelckpt_cfg["params"]["save_top_k"] = 3
 
-        modelckpt_cfg = lightning_config.modelcheckpoint or OmegaConf.create()
+        # modelckpt_cfg = lightning_config.modelcheckpoint or OmegaConf.create()
+        # modelckpt_cfg = OmegaConf.merge(default_modelckpt_cfg, modelckpt_cfg)
+        # trainer_kwargs["checkpoint_callback"] = instantiate_from_config(modelckpt_cfg)
+
+        modelckpt_cfg = lightning_config.get("modelcheckpoint", None) or OmegaConf.create()
         modelckpt_cfg = OmegaConf.merge(default_modelckpt_cfg, modelckpt_cfg)
-        trainer_kwargs["checkpoint_callback"] = instantiate_from_config(modelckpt_cfg)
+        checkpoint_callback = instantiate_from_config(modelckpt_cfg) # <--- 1. 改成临时变量
+
+   
 
         # add callback which sets up log directory
         default_callbacks_cfg = {
@@ -516,9 +542,13 @@ if __name__ == "__main__":
                 }
             },
         }
-        callbacks_cfg = lightning_config.callbacks or OmegaConf.create()
+
+        callbacks_cfg = lightning_config.get("callbacks", None) or OmegaConf.create()
         callbacks_cfg = OmegaConf.merge(default_callbacks_cfg, callbacks_cfg)
-        trainer_kwargs["callbacks"] = [instantiate_from_config(callbacks_cfg[k]) for k in callbacks_cfg]
+
+        # 2. 把 checkpoint_callback 和其他 callback 合并到一个列表里
+        other_callbacks = [instantiate_from_config(callbacks_cfg[k]) for k in callbacks_cfg]
+        trainer_kwargs["callbacks"] = [checkpoint_callback] + other_callbacks
 
         trainer = Trainer.from_argparse_args(trainer_opt, **trainer_kwargs)
 
@@ -529,14 +559,16 @@ if __name__ == "__main__":
         # lightning still takes care of proper multiprocessing though
         data.prepare_data()
         data.setup()
-
+        # with torch.no_grad():
+        #     for images, _ in data.train_dataloader():  # 假设数据集返回 (image, label)
+        #         print("I love you man !")
         # configure learning rate
         bs, base_lr = config.data.params.batch_size, config.model.base_learning_rate
         if not cpu:
             ngpu = len(lightning_config.trainer.gpus.strip(",").split(','))
         else:
             ngpu = 1
-        accumulate_grad_batches = lightning_config.trainer.accumulate_grad_batches or 1
+        accumulate_grad_batches = lightning_config.trainer.get("accumulate_grad_batches", None) or 1
         print(f"accumulate_grad_batches = {accumulate_grad_batches}")
         lightning_config.trainer.accumulate_grad_batches = accumulate_grad_batches
         model.learning_rate = accumulate_grad_batches * ngpu * bs * base_lr
@@ -567,7 +599,8 @@ if __name__ == "__main__":
                 melk()
                 raise
         if not opt.no_test and not trainer.interrupted:
-            trainer.test(model, data)
+            # trainer.test(model, data)
+            print("No need to test")
     except Exception:
         if opt.debug and trainer.global_rank==0:
             try:

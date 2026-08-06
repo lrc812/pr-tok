@@ -28,16 +28,21 @@ model:
 data:
   target: main.DataModuleFromConfig
   params:
-    batch_size: 5
+    batch_size: 8
     num_workers: 8
     train:
       target: taming.data.custom.CustomTrain
       params:
-        training_images_list_file: some/training.txt
+        training_images_list_file: /home/disk1/lihaoran/vq-gan/taming-transformers/data/roco/1/rocov2/medical_train.txt
         size: 256
     validation:
       target: taming.data.custom.CustomTest
       params:
-        test_images_list_file: some/test.txt
+        test_images_list_file: /home/disk1/lihaoran/vq-gan/taming-transformers/data/roco/1/rocov2/medical_test.txt
+        size: 256
+    test:
+      target: taming.data.custom.CustomTest
+      params:
+        test_images_list_file: /home/disk1/lihaoran/vq-gan/taming-transformers/data/roco/1/rocov2/medical_test.txt
         size: 256
 

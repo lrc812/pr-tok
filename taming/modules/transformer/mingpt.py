@@ -14,10 +14,49 @@ import logging
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-from transformers import top_k_top_p_filtering
+
 
 logger = logging.getLogger(__name__)
 
+def top_k_top_p_filtering(logits, top_k=0, top_p=1.0, filter_value=-float('Inf')):
+    """
+    Filter a distribution of logits using top-k and/or nucleus (top-p) filtering.
+
+    Args:
+        logits: Tensor of shape (batch_size, vocab_size) - The logits distribution.
+        top_k: int - Keep only top k tokens with highest probability (default: 0, no filtering).
+        top_p: float - Keep the smallest set of tokens whose cumulative probability >= top_p (nucleus filtering).
+        filter_value: float - The value to assign to filtered logits (default: -inf).
+
+    Returns:
+        Filtered logits tensor of the same shape as input logits.
+    """
+    # Top-k filtering
+    if top_k > 0:
+        # Get the indices of the top-k logits
+        top_k_values, _ = torch.topk(logits, top_k, dim=-1)
+        # Get the minimum value in the top-k logits
+        min_top_k = top_k_values[:, -1, None]
+        # Mask logits that are not in the top-k
+        logits[logits < min_top_k] = filter_value
+
+    # Top-p (nucleus) filtering
+    if top_p < 1.0:
+        # Sort logits and calculate cumulative probabilities
+        sorted_logits, sorted_indices = torch.sort(logits, descending=True, dim=-1)
+        cumulative_probs = torch.cumsum(torch.softmax(sorted_logits, dim=-1), dim=-1)
+
+        # Mask tokens with cumulative probability above top_p
+        sorted_indices_to_remove = cumulative_probs > top_p
+        # Shift the indices to the right to keep the first token above the threshold
+        sorted_indices_to_remove[:, 1:] = sorted_indices_to_remove[:, :-1].clone()
+        sorted_indices_to_remove[:, 0] = 0
+
+        # Scatter the filtered logits back to the original logits tensor
+        indices_to_remove = sorted_indices_to_remove.scatter(1, sorted_indices, sorted_indices_to_remove)
+        logits[indices_to_remove] = filter_value
+
+    return logits
 
 class GPTConfig:
     """ base GPT config, params common to all GPT versions """
@@ -159,12 +198,15 @@ class GPT(nn.Module):
 
     def forward(self, idx, embeddings=None, targets=None):
         # forward the GPT model
+        # print("idx shape",idx.shape)
+        # print("max value and min value in idx:", torch.max(idx), torch.min(idx))
         token_embeddings = self.tok_emb(idx) # each index maps to a (learnable) vector
 
         if embeddings is not None: # prepend explicit embeddings
             token_embeddings = torch.cat((embeddings, token_embeddings), dim=1)
 
         t = token_embeddings.shape[1]
+        # print("length t",t)
         assert t <= self.block_size, "Cannot forward, model block size is exhausted."
         position_embeddings = self.pos_emb[:, :t, :] # each position maps to a (learnable) vector
         x = self.drop(token_embeddings + position_embeddings)
@@ -265,6 +307,7 @@ class CodeGPT(nn.Module):
             token_embeddings = torch.cat((embeddings, token_embeddings), dim=1)
 
         t = token_embeddings.shape[1]
+        # print("length t",t)
         assert t <= self.block_size, "Cannot forward, model block size is exhausted."
         position_embeddings = self.pos_emb[:, :t, :] # each position maps to a (learnable) vector
         x = self.drop(token_embeddings + position_embeddings)

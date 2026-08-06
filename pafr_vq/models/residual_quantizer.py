@@ -13,8 +13,8 @@ class ResidualVectorQuantizer(nn.Module):
         b, _, h, w = latents.shape; flat, active = latents.permute(0, 2, 3, 1).reshape(-1, self.dim), active_mask.reshape(-1).bool()
         ids = torch.full((flat.shape[0],), self.null_code_id, dtype=torch.long, device=latents.device); quantized = torch.zeros_like(flat); logits = flat.new_zeros(flat.shape[0], self.codebook_size); probs = logits.clone()
         if active.any():
-            vectors = flat[active]; distance = vectors.square().sum(-1, keepdim=True) + self.codebook.weight.square().sum(-1) - 2 * vectors @ self.codebook.weight.t(); active_logits = -distance / max(self.soft_temperature, 1e-6)
-            active_ids = distance.argmin(-1); code = self.codebook(active_ids); ids[active], quantized[active] = active_ids, vectors + (code - vectors).detach(); logits[active], probs[active] = active_logits, active_logits.softmax(-1)
+            vectors = flat[active]; distance = vectors.square().sum(-1, keepdim=True) + self.codebook.weight.square().sum(-1) - 2 * vectors @ self.codebook.weight.t(); active_logits = (-distance / max(self.soft_temperature, 1e-6)).to(flat.dtype)
+            active_ids = distance.argmin(-1); code = self.codebook(active_ids).to(vectors.dtype); ids[active] = active_ids; quantized[active] = (vectors + (code - vectors).detach()).to(quantized.dtype); logits[active] = active_logits.to(logits.dtype); probs[active] = active_logits.softmax(-1).to(probs.dtype)
             commitment, codebook_loss = F.mse_loss(vectors, code.detach()) * self.commitment_weight, F.mse_loss(code, vectors.detach()); counts = torch.bincount(active_ids, minlength=self.codebook_size).float()
         else:
             commitment = codebook_loss = latents.new_zeros(()); counts = latents.new_zeros(self.codebook_size)

@@ -93,3 +93,6 @@ tmp/
 *.pid
 *.core
 core
+
+# PAFR-VQ local smoke/training artifacts
+outputs/

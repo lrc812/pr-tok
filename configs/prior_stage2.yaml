@@ -1,0 +1,9 @@
+data:
+  type: synthetic
+selector:
+  active_ratio: 0.25
+scorer:
+  type: haar_dwt
+train:
+  max_steps: 100
+  output_dir: outputs/pafr_stage2

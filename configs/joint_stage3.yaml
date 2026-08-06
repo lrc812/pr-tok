@@ -1,0 +1,14 @@
+data:
+  type: synthetic
+selector:
+  active_ratio: 0.25
+scorer:
+  type: haar_dwt
+loss:
+  l1: 1.0
+  frequency: 1.0
+  gradient: 0.5
+  vq: 1.0
+train:
+  max_steps: 100
+  output_dir: outputs/pafr_stage3

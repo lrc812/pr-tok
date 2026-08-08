@@ -1,0 +1,11 @@
+# Phase 1 default: CPU-friendly smoke configuration. Override image_size/data for real runs.
+data:
+  type: synthetic
+  root: null
+selector:
+  active_ratio: 0.25
+scorer:
+  type: haar_dwt
+train:
+  max_steps: 100
+  output_dir: outputs/pafr_stage1

@@ -1,0 +1,42 @@
+seed: 42
+device: auto
+image_size: 32
+data:
+  type: synthetic  # synthetic | image_folder
+  root: null
+  batch_size: 4
+  num_workers: 0
+base_tokenizer:
+  type: tiny       # tiny for smoke test; use VQGANAdapter in a custom experiment for a checkpoint
+  checkpoint: null
+  freeze: true
+  compression_factor: 4
+scorer:
+  type: haar_dwt  # random | pixel | sobel | haar_dwt | hybrid
+  pixel_weight: 1.0
+  sobel_weight: 1.0
+  dwt_weight: 1.0
+selector:
+  active_ratio: 0.25
+  budget: null
+residual:
+  dim: 16
+  codebook_size: 32
+  commitment_weight: 0.25
+  soft_temperature: 1.0
+loss:
+  l1: 1.0
+  frequency: 1.0
+  gradient: 0.5
+  vq: 1.0
+prior:
+  model_dim: 64
+  depth: 2
+  heads: 4
+  dropout: 0.0
+train:
+  max_steps: 10
+  learning_rate: 0.001
+  weight_decay: 0.0
+  grad_clip: 1.0
+  output_dir: outputs/pafr_vq

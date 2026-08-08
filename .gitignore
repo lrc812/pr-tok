@@ -94,5 +94,16 @@ tmp/
 *.core
 core
 
+.tools/
+
+# Downloaded Hugging Face model/cache
+pretrained_models/flan-t5-large/
+pretrained_models/flan-t5-large-local/
+pretrained_models/**/.locks/
+
+# Optional generated images
+generated_image.png
+pixel_loss*_visualization.png
+sample_t2i.png
 # PAFR-VQ local smoke/training artifacts
 outputs/
